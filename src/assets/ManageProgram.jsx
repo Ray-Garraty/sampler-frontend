@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import Card from "./Card.jsx";
+import Card from "./Card";
 
 const ManageProgram = ({ returnToMainMenu }) => (
   <Container>
