@@ -11,13 +11,15 @@ const PumpCal = ({ returnToMainMenu }) => {
   return (
     <React.Fragment>
       <Stack direction="horizontal" gap={5}>
-        <div className="ms-3 my-2 p-2 fs-4 fw-bold">
+        <div className="mx-auto my-2 p-1 fs-4 fw-bold">
           <Button className="fs-4 fw-bold" variant="warning">
             Сбросить старую калибровку
           </Button>
         </div>
-        <h2 className="mx-auto mt-1 text-center fw-bold">КАЛИБРОВКА НАСОСА</h2>
-        <div className="p-2">
+        <h2 className="mx-auto mt-1 text-center fw-bold text-secondary">
+          КАЛИБРОВКА НАСОСА
+        </h2>
+        <div className="mx-auto p-2">
           <Button
             className="fs-4 fw-bold"
             onClick={returnToMainMenu}

@@ -11,7 +11,7 @@ const ManageProgram = ({ returnToMainMenu }) => (
   <Container>
     <Row>
       <Col sm={8}>
-        <h2 className="mx-auto my-4 py-4 text-center fw-bold">
+        <h2 className="mx-auto my-4 py-4 text-center fw-bold text-secondary">
           ПУСК / ОСТАНОВКА ПРОГРАММЫ
         </h2>
       </Col>

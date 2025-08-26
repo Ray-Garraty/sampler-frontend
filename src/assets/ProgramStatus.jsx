@@ -12,7 +12,9 @@ const ProgramStatus = ({ returnToMainMenu }) => (
           Отчёт по пробам
         </Button>
       </div>
-      <h2 className="mx-auto text-center fw-bold">СТАТУС ТЕКУЩЕЙ ПРОГРАММЫ</h2>
+      <h2 className="mx-auto text-center fw-bold text-secondary">
+        СТАТУС ТЕКУЩЕЙ ПРОГРАММЫ
+      </h2>
       <div className="p-2">
         <Button
           className="fs-4 fw-bold"

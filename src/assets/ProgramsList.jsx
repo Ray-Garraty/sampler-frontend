@@ -28,7 +28,9 @@ const ProgramsList = ({ returnToMainMenu }) => {
             Создать новую программу
           </Button>
         </div>
-        <h2 className="text-center fw-bold">РЕДАКТИРОВАНИЕ ПРОГРАММ</h2>
+        <h2 className="text-center fw-bold text-secondary">
+          РЕДАКТИРОВАНИЕ ПРОГРАММ
+        </h2>
         <div className="p-4">
           <Button
             className="fs-4 fw-bold"

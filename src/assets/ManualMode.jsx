@@ -15,13 +15,13 @@ const ManualMode = ({ returnToMainMenu }) => {
       <Container>
         <Row>
           <Col sm={8}>
-            <h2 className="mx-auto my-4 py-4 text-center fw-bold">
+            <h2 className="mx-auto my-2 py-4 text-center fw-bold text-secondary">
               РУЧНОЕ УПРАВЛЕНИЕ
             </h2>
           </Col>
           <Col sm={3}>
             <Button
-              className="my-4 fs-4 fw-bold"
+              className="my-2 fs-4 fw-bold"
               onClick={returnToMainMenu}
               variant="danger"
             >

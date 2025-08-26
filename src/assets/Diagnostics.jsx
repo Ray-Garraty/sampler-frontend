@@ -11,7 +11,7 @@ const Diagnostics = ({ returnToMainMenu }) => (
     <Container>
       <Row>
         <Col sm={8}>
-          <h2 className="mx-auto my-4 py-4 text-center fw-bold">
+          <h2 className="mx-auto my-4 py-4 text-center fw-bold text-secondary">
             АППАРАТНАЯ ДИАГНОСТИКА
           </h2>
         </Col>
