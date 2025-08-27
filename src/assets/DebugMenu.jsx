@@ -34,7 +34,6 @@ const SensorTable = ({ title, values }) => (
 );
 
 const menuItems = [
-  { title: "RS485", components: [RS485Status(), ModbusLog()] },
   {
     title: "Датчики",
     components: [
@@ -45,16 +44,17 @@ const menuItems = [
       SensorTable({ title: "Расходомер", values: [100] }),
     ],
   },
-  { title: "ШД", components: [] },
-  { title: "Сервопривод", components: [] },
-  { title: "Пельтье", components: [] },
+  { title: "Насос", components: [] },
+  { title: "Карусель", components: [] },
+  { title: "Охладитель", components: [] },
+  { title: "RS485", components: [RS485Status(), ModbusLog()] },
 ];
 
 const DebugMenu = ({ returnToMainMenu }) => (
   <React.Fragment>
     <Stack direction="horizontal" gap={1}>
       <h2 className="mx-auto pt-2 text-center fw-bold text-secondary">
-        РЕЖИМ РАЗРАБОТЧИКА
+        АППАРАТНАЯ ДИАГНОСТИКА
       </h2>
       <div className="p-3">
         <Button

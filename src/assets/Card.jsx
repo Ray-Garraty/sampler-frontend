@@ -8,7 +8,7 @@ const CustomCard = ({ title, setMenu }) => (
     onClick={setMenu}
     style={{ height: "150px" }}
   >
-    <div className="mt-4 mx-1 fw-bold fs-2">{title}</div>
+    <div className="my-auto mx-2 fw-bold fs-2">{title}</div>
   </Card>
 );
 

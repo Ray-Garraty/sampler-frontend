@@ -22,16 +22,16 @@ const ProgramsList = ({ returnToMainMenu }) => {
   const [activeProgram, setActiveProgram] = useState(programs[0]);
   return (
     <React.Fragment>
-      <Stack direction="horizontal" gap={1}>
-        <div className="p-3 mx-auto">
+      <Stack className="m-2" direction="horizontal" gap={1}>
+        <div className="fs-4 fw-bold">
           <Button className="fs-4 fw-bold" variant="primary">
-            Создать новую программу
+            Новая программа
           </Button>
         </div>
-        <h2 className="text-center fw-bold text-secondary">
+        <h3 className="mx-auto pt-2 text-center fw-bold text-secondary">
           РЕДАКТИРОВАНИЕ ПРОГРАММ
-        </h2>
-        <div className="p-4">
+        </h3>
+        <div>
           <Button
             className="fs-4 fw-bold"
             onClick={returnToMainMenu}

@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "start chrome --window-size=1024,600 http://localhost:5173 & vite",
+    "devwin": "start chrome --window-size=1024,600 http://localhost:5173 & vite",
+    "devlin": "firefox --window-size=1024,600 http://localhost:5173 & vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "bootstrap": "^5.3.7",
-    "eslint-import-resolver-typescript": "^4.4.4",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1"
@@ -26,6 +26,7 @@
     "eslint": "^9.34.0",
     "eslint-config-airbnb-extended": "^2.1.2",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.4",
