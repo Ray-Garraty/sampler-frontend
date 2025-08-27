@@ -3,9 +3,52 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Tab from "react-bootstrap/Tab";
+import Table from "react-bootstrap/Table";
 import Tabs from "react-bootstrap/Tabs";
 
-const menuItems = ["RS485", "Датчики", "ШД", "Сервопривод", "Пельтье"];
+const RS485Status = () => (
+  <div className="p-3">Здесь будет отображаться состояние USB-RS485</div>
+);
+
+const ModbusLog = () => (
+  <div className="p-3">
+    Здесь будет выводиться лог обмена сообщениями MODBUS
+  </div>
+);
+
+const SensorTable = ({ title, values }) => (
+  <Table bordered hover striped>
+    <thead>
+      <tr className="text-center">
+        <th colSpan={values.length}>{title}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="text-center">
+        {values.map((t, i) => (
+          <td key={i}>{t}</td>
+        ))}
+      </tr>
+    </tbody>
+  </Table>
+);
+
+const menuItems = [
+  { title: "RS485", components: [RS485Status(), ModbusLog()] },
+  {
+    title: "Датчики",
+    components: [
+      SensorTable({ title: "t° ЦП", values: [40] }),
+      SensorTable({ title: "t° RTC", values: [30] }),
+      SensorTable({ title: "t° в хол. камере", values: [4, 4.5, 3.5] }),
+      SensorTable({ title: "Датчик жидкости", values: ["HIGH"] }),
+      SensorTable({ title: "Расходомер", values: [100] }),
+    ],
+  },
+  { title: "ШД", components: [] },
+  { title: "Сервопривод", components: [] },
+  { title: "Пельтье", components: [] },
+];
 
 const DebugMenu = ({ returnToMainMenu }) => (
   <React.Fragment>
@@ -29,14 +72,16 @@ const DebugMenu = ({ returnToMainMenu }) => (
       defaultActiveKey="RS485"
       id="uncontrolled-tab-example"
     >
-      {menuItems.map((item) => (
+      {menuItems.map(({ title, components }) => (
         <Tab
-          key={item}
-          className="px-3 fw-bold fs-3 text-center"
-          eventKey={item}
-          title={item}
+          key={title}
+          className="px-3 fw-bold fs-3 text-start"
+          eventKey={title}
+          title={title}
         >
-          Здесь будут всяческие органы управления
+          <Stack direction="horizontal" gap={2}>
+            {components}
+          </Stack>
         </Tab>
       ))}
     </Tabs>
