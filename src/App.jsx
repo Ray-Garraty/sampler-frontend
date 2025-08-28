@@ -3,45 +3,46 @@ import React, { useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-import DebugMenu from "./assets/DebugMenu.jsx";
-import Diagnostics from "./assets/Diagnostics.jsx";
-import MainMenu from "./assets/MainMenu.jsx";
-import ManageProgram from "./assets/ManageProgram.jsx";
-import ManualMode from "./assets/ManualMode.jsx";
-import ProgramsList from "./assets/ProgramsList.jsx";
-import ProgramStatus from "./assets/ProgramStatus.jsx";
-import PumpCal from "./assets/PumpCal.jsx";
-import SystemSettings from "./assets/SystemSettings.jsx";
+import Diagnostics from "./assets/components/slices/Diagnostics.jsx";
+import MainMenu from "./assets/components/slices/MainMenu.jsx";
+import ManualMode from "./assets/components/slices/ManualMode.jsx";
+import NewProgram from "./assets/components/slices/NewProgram.jsx";
+import ProgramsList from "./assets/components/slices/ProgramsList.jsx";
+import ProgramStatus from "./assets/components/slices/ProgramStatus.jsx";
+import SamplingReport from "./assets/components/slices/SamplingReport.jsx";
+import SystemSettings from "./assets/components/slices/SystemSettings.jsx";
 
 const App = () => {
-  const [activeMenu, setActiveMenu] = useState("MainMenu");
-  switch (activeMenu) {
+  const [activeSlice, setActiveSlice] = useState("MainMenu");
+  switch (activeSlice) {
     case "MainMenu":
-      return <MainMenu switchMenu={(menuName) => setActiveMenu(menuName)} />;
+      return (
+        <MainMenu activateSlice={(menuName) => setActiveSlice(menuName)} />
+      );
     case "ProgramsList":
       return (
-        <ProgramsList returnToMainMenu={() => setActiveMenu("MainMenu")} />
+        <ProgramsList
+          onCreateNew={() => setActiveSlice("NewProgram")}
+          onExit={() => setActiveSlice("MainMenu")}
+        />
       );
     case "ProgramStatus":
       return (
-        <ProgramStatus returnToMainMenu={() => setActiveMenu("MainMenu")} />
-      );
-    case "ManageProgram":
-      return (
-        <ManageProgram returnToMainMenu={() => setActiveMenu("MainMenu")} />
+        <ProgramStatus
+          onExit={() => setActiveSlice("MainMenu")}
+          onViewReport={() => setActiveSlice("SamplingReport")}
+        />
       );
     case "ManualMode":
-      return <ManualMode returnToMainMenu={() => setActiveMenu("MainMenu")} />;
-    case "PumpCal":
-      return <PumpCal returnToMainMenu={() => setActiveMenu("MainMenu")} />;
+      return <ManualMode onExit={() => setActiveSlice("MainMenu")} />;
     case "SystemSettings":
-      return (
-        <SystemSettings returnToMainMenu={() => setActiveMenu("MainMenu")} />
-      );
+      return <SystemSettings onExit={() => setActiveSlice("MainMenu")} />;
     case "Diagnostics":
-      return <Diagnostics returnToMainMenu={() => setActiveMenu("MainMenu")} />;
-    case "DebugMenu":
-      return <DebugMenu returnToMainMenu={() => setActiveMenu("MainMenu")} />;
+      return <Diagnostics onExit={() => setActiveSlice("MainMenu")} />;
+    case "NewProgram":
+      return <NewProgram onExit={() => setActiveSlice("ProgramsList")} />;
+    case "SamplingReport":
+      return <SamplingReport onExit={() => setActiveSlice("ProgramStatus")} />;
     default:
       return new Error("Unknown main menu component...");
   }

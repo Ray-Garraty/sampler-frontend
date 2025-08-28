@@ -8,6 +8,8 @@ import Stack from "react-bootstrap/Stack";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
+import HeaderOneBtn from "../common/HeaderOneBtn";
+
 const TxtNumInputGroup = ({ title, defaultValue }) => (
   <InputGroup className="w-50">
     <InputGroup.Text className="fs-4 fw-bold">{title}</InputGroup.Text>
@@ -93,22 +95,13 @@ const menuItems = [
   },
 ];
 
-const ManualMode = ({ returnToMainMenu }) => (
+const ManualMode = ({ onExit }) => (
   <React.Fragment>
-    <Stack direction="horizontal" gap={1}>
-      <h2 className="mx-auto pt-2 text-center fw-bold text-secondary">
-        РУЧНОЕ УПРАВЛЕНИЕ
-      </h2>
-      <div className="p-3">
-        <Button
-          className="fs-4 fw-bold"
-          onClick={returnToMainMenu}
-          variant="danger"
-        >
-          Выйти в главное меню
-        </Button>
-      </div>
-    </Stack>
+    <HeaderOneBtn
+      btnTitle="Выйти в главное меню"
+      mainTitle="РУЧНОЕ УПРАВЛЕНИЕ"
+      onBtnClk={onExit}
+    />
     <Tabs
       justify
       className="mb-3 fw-bold fs-3"

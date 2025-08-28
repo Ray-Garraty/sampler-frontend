@@ -6,26 +6,15 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-const SystemSettings = ({ returnToMainMenu }) => (
+import HeaderOneBtn from "../common/HeaderOneBtn";
+
+const SystemSettings = ({ onExit }) => (
   <React.Fragment>
-    <Container>
-      <Row>
-        <Col sm={8}>
-          <h2 className="my-4 text-center fw-bold text-secondary">
-            СИСТЕМНЫЕ НАСТРОЙКИ
-          </h2>
-        </Col>
-        <Col sm={4}>
-          <Button
-            className="my-3 fs-4 fw-bold"
-            onClick={returnToMainMenu}
-            variant="danger"
-          >
-            Выйти в главное меню
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+    <HeaderOneBtn
+      btnTitle="Выйти в главное меню"
+      mainTitle="СИСТЕМНЫЕ НАСТРОЙКИ"
+      onBtnClk={onExit}
+    />
     <Accordion>
       <Accordion.Item eventKey={1}>
         <Accordion.Header>

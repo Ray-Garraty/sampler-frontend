@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 import Accordion from "react-bootstrap/Accordion";
 import Badge from "react-bootstrap/Badge";
-import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
+
+import HeaderTwoBtns from "../common/HeaderTwoBtns";
 
 const programs = [
   "Программа пробоотбора №1",
@@ -18,29 +19,18 @@ const programs = [
   "Программа пробоотбора №10",
 ];
 
-const ProgramsList = ({ returnToMainMenu }) => {
+const ProgramsList = ({ onExit, onCreateNew }) => {
   const [activeProgram, setActiveProgram] = useState(programs[0]);
   return (
     <React.Fragment>
-      <Stack className="m-2" direction="horizontal" gap={1}>
-        <div className="fs-4 fw-bold">
-          <Button className="fs-4 fw-bold" variant="primary">
-            Новая программа
-          </Button>
-        </div>
-        <h3 className="mx-auto pt-2 text-center fw-bold text-secondary">
-          РЕДАКТИРОВАНИЕ ПРОГРАММ
-        </h3>
-        <div>
-          <Button
-            className="fs-4 fw-bold"
-            onClick={returnToMainMenu}
-            variant="danger"
-          >
-            Выйти в главное меню
-          </Button>
-        </div>
-      </Stack>
+      <HeaderTwoBtns
+        leftBtnTitle="Создать новую"
+        mainTitle="РЕДАКТИРОВАНИЕ ПРОГРАММ"
+        onLeftBtnClk={onCreateNew}
+        onRightBtnClk={onExit}
+        rightBtnTitle="Выйти в главное меню"
+      />
+      ;
       <Stack direction="horizontal" gap={1} />
       <Accordion>
         {programs.map((programName, i) => (

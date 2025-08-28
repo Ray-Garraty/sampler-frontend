@@ -5,10 +5,10 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import CustomCard from "./Card.jsx";
-import logo from "./logo.png";
+import logo from "../../images/logo.png";
+import CustomCard from "../common/CustomCard.jsx";
 
-const MainMenu = ({ switchMenu }) => (
+const MainMenu = ({ activateSlice }) => (
   <Container>
     <Row>
       <Col>
@@ -18,13 +18,13 @@ const MainMenu = ({ switchMenu }) => (
       </Col>
       <Col>
         <CustomCard
-          setMenu={() => switchMenu("ProgramsList")}
+          onClickAction={() => activateSlice("ProgramsList")}
           title={"Редактирование программ"}
         />
       </Col>
       <Col>
         <CustomCard
-          setMenu={() => switchMenu("ProgramStatus")}
+          onClickAction={() => activateSlice("ProgramStatus")}
           title={"Статус текущей программы"}
         />
       </Col>
@@ -32,19 +32,19 @@ const MainMenu = ({ switchMenu }) => (
     <Row>
       <Col>
         <CustomCard
-          setMenu={() => switchMenu("Diagnostics")}
+          onClickAction={() => activateSlice("Diagnostics")}
           title={"Аппаратная диагностика"}
         />
       </Col>
       <Col>
         <CustomCard
-          setMenu={() => switchMenu("ManualMode")}
+          onClickAction={() => activateSlice("ManualMode")}
           title={"Ручное управление"}
         />
       </Col>
       <Col>
         <CustomCard
-          setMenu={() => switchMenu("SystemSettings")}
+          onClickAction={() => activateSlice("SystemSettings")}
           title={"Системные настройки"}
         />
       </Col>

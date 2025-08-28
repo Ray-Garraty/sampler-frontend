@@ -1,10 +1,11 @@
 import React from "react";
 
-import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
 import Tabs from "react-bootstrap/Tabs";
+
+import HeaderOneBtn from "../common/HeaderOneBtn";
 
 const ModbusLog = () => (
   <div>
@@ -62,22 +63,13 @@ const menuItems = [
   { title: "MODBUS", components: [ModbusLog()] },
 ];
 
-const Diagnostics = ({ returnToMainMenu }) => (
+const Diagnostics = ({ onExit }) => (
   <React.Fragment>
-    <Stack direction="horizontal" gap={1}>
-      <h2 className="mx-auto pt-2 text-center fw-bold text-secondary">
-        АППАРАТНАЯ ДИАГНОСТИКА
-      </h2>
-      <div className="p-3">
-        <Button
-          className="fs-4 fw-bold"
-          onClick={returnToMainMenu}
-          variant="danger"
-        >
-          Выйти в главное меню
-        </Button>
-      </div>
-    </Stack>
+    <HeaderOneBtn
+      btnTitle="Выйти в главное меню"
+      mainTitle="АППАРАТНАЯ ДИАГНОСТИКА"
+      onBtnClk={onExit}
+    />
     <Tabs justify className="mb-3 fw-bold fs-3" defaultActiveKey="Датчики">
       {menuItems.map(({ title, components }) => (
         <Tab

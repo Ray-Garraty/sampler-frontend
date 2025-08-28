@@ -4,27 +4,17 @@ import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 
-const ProgramStatus = ({ returnToMainMenu }) => (
+import HeaderTwoBtns from "../common/HeaderTwoBtns";
+
+const ProgramStatus = ({ onViewReport, onExit }) => (
   <React.Fragment>
-    <Stack className="m-2" direction="horizontal" gap={1}>
-      <div className="fs-4 fw-bold">
-        <Button className="fs-4 fw-bold" variant="primary">
-          Отчёт по пробам
-        </Button>
-      </div>
-      <h3 className="mx-auto pt-2 text-center fw-bold text-secondary">
-        СТАТУС ТЕКУЩЕЙ ПРОГРАММЫ
-      </h3>
-      <div>
-        <Button
-          className="fs-4 fw-bold"
-          onClick={returnToMainMenu}
-          variant="danger"
-        >
-          Выйти в главное меню
-        </Button>
-      </div>
-    </Stack>
+    <HeaderTwoBtns
+      leftBtnTitle="Отчёт по пробам"
+      mainTitle="СТАТУС ТЕКУЩЕЙ ПРОГРАММЫ"
+      onLeftBtnClk={onViewReport}
+      onRightBtnClk={onExit}
+      rightBtnTitle="Выйти в главное меню"
+    />
     <Stack className="m-2" direction="horizontal" gap={2}>
       <Button className="fs-4 fw-bold">Запустить программу</Button>
       <Button className="fs-4 fw-bold">Приостановить / возобновить</Button>
