@@ -1,25 +1,25 @@
-/* eslint-disable import-x/extensions */
 import React from "react";
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 
 import logo from "../../images/logo.png";
-import CustomCard from "../common/CustomCard.jsx";
+import CustomCard from "../common/CustomCard";
 
 const MainMenu = ({ activateSlice }) => (
   <Container>
     <Row>
-      <Col>
-        <div className="my-4">
-          <img alt="Logo" src={logo} />
-        </div>
+      <Col className="text-center my-auto">
+        <Figure className="mt-4">
+          <Figure.Image alt="171x180" src={logo} />
+        </Figure>
       </Col>
       <Col>
         <CustomCard
           onClickAction={() => activateSlice("ProgramsList")}
-          title={"Редактирование программ"}
+          title={"Список программ"}
         />
       </Col>
       <Col>

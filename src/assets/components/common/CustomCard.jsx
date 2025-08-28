@@ -6,9 +6,9 @@ const CustomCard = ({ title, onClickAction }) => (
   <Card
     className="text-center my-2 mx-0 bg-primary text-white"
     onClick={onClickAction}
-    style={{ height: "150px" }}
+    style={{ height: "250px" }}
   >
-    <div className="my-auto mx-2 fw-bold fs-2">{title}</div>
+    <div className="my-auto mx-2 fw-bold fs-1">{title}</div>
   </Card>
 );
 
