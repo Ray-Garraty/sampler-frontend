@@ -1,33 +1,58 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-import CustomTabs from "../common/CustomTabs";
+import Accordion from "react-bootstrap/Accordion";
+import Form from "react-bootstrap/Form";
+
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
+import { TxtNumInputGroup } from "../common/InputGroups";
 
-const tabs = [
-  { title: "Параметры ёмкости", content: "Ввод числа, Ввод объёма" },
-  { title: "Параметры трубки", content: "Ввод длины, Выбор типа" },
-  {
-    title: "Задержка до старта",
-    content:
-      "Ввод даты и время старта, Ввод счётчика импульсов расходомера перед стартом",
-  },
-  {
-    title: "Схема отбора",
-    content:
-      "По интервалам времени (ввод интервала + когда брать первую пробу - сразу или после 1-го интервала), По потоку (ввод интервала, выбор оверрайда по времени и ввод времени, + когда брать первую пробу - сразу или после 1-го интервала)",
-  },
-  {
-    title: "Распределение по ёмкостям",
-    content:
-      "Выбор: 1 проба = 1 ёмкость или нет? Ввод числа проб. Выбор: остановка после последней пробы или вручную. Ввод числа проб на 1 ёмкость. Ввод числа ёмкостей на 1 пробу.",
-  },
-  { title: "Расходомер вкл. / выкл.", content: "Включен / выключен" },
-  { title: "Объём пробы", content: "Ввод объёма пробы" },
-  { title: "Промывка", content: "Ввод числа промывок" },
-  { title: "Число повторов", content: "Ввод числа повторов при неудаче" },
-  { title: "Место отбора", content: "Ввод названия места отбора" },
-  { title: "Дополнительно", content: "Отдельное меню Табл. 5 с. 65" },
-];
+const StartDelayInput = () => {
+  const inputRef = useRef(null);
+  const [startDelayOptions, setStartDelayOptions] = useState(0);
+  const renderDelayOptions = () => {
+    const val = inputRef.current.value;
+    console.log(val);
+    setStartDelayOptions(val);
+  };
+  return (
+    <React.Fragment>
+      <Form.Select
+        ref={inputRef}
+        className="m-1 fw-bold fs-4 text-primary"
+        onChange={renderDelayOptions}
+      >
+        <option value={0}>Отложенный старт: выберите вариант</option>
+        <option value={1}>Отложенный старт по дате / времени</option>
+        <option value={2}>Старт по счётчику импульсов расходомера</option>
+      </Form.Select>
+      {startDelayOptions === 1 && (
+        <React.Fragment>
+          <label className="mx-1 my-auto fw-bold fs-4" htmlFor="delayDate">
+            Укажите дату:
+          </label>
+          <input
+            className="mx-1 fw-bold fs-4"
+            id="myDate"
+            name="delayDate"
+            type="date"
+          />
+          <label className="mx-1 my-auto fw-bold fs-4" htmlFor="delayTime">
+            и время:
+          </label>
+          <input
+            className="mx-1 fw-bold fs-4"
+            id="myDate"
+            name="delayTime"
+            type="time"
+          />
+        </React.Fragment>
+      )}
+      {startDelayOptions === 2 && (
+        <TxtNumInputGroup defaultValue="1000" title="Число импульсов:" />
+      )}
+    </React.Fragment>
+  );
+};
 
 const NewProgram = ({ onExit }) => (
   <React.Fragment>
@@ -38,7 +63,11 @@ const NewProgram = ({ onExit }) => (
       onRightBtnClk={onExit}
       rightBtnTitle="Вернуться к списку"
     />
-    <CustomTabs elements={tabs} fontSize="5" />
+    <TxtNumInputGroup defaultValue="12" title="Число ёмкостей" />
+    <TxtNumInputGroup defaultValue="500" title="Объём ёмкости, мл" />
+    <TxtNumInputGroup defaultValue="200" title="Длина трубки подачи, см" />
+    <TxtNumInputGroup defaultValue="200" title="Внутр. ⌀ трубки, мм" />
+    <StartDelayInput />
   </React.Fragment>
 );
 

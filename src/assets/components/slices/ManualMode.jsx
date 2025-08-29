@@ -1,43 +1,13 @@
 import React from "react";
 
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Pagination from "react-bootstrap/Pagination";
 import Stack from "react-bootstrap/Stack";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import HeaderOneBtn from "../common/HeaderOneBtn";
-
-const TxtNumInputGroup = ({ title, defaultValue }) => (
-  <InputGroup className="w-50">
-    <InputGroup.Text className="fs-4 fw-bold">{title}</InputGroup.Text>
-    <Button className="fs-4 fw-bold" id="button-addon1" variant="primary">
-      &nbsp;&nbsp;-&nbsp;&nbsp;
-    </Button>
-    <Form.Control
-      aria-describedby="basic-addon1"
-      aria-label="Example text with button addon"
-      className="fs-4 fw-bold text-center"
-      value={defaultValue}
-    />
-    <Button className="fs-4 fw-bold" id="button-addon2" variant="primary">
-      &nbsp;&nbsp;+&nbsp;&nbsp;
-    </Button>
-  </InputGroup>
-);
-
-const Selector = ({ options }) => (
-  <InputGroup className="w-50 mx-4">
-    {options.map((option) => (
-      <React.Fragment key={option}>
-        <InputGroup.Text className="fs-4 fw-bold">{option}</InputGroup.Text>
-        <InputGroup.Radio name="speed" />
-      </React.Fragment>
-    ))}
-  </InputGroup>
-);
+import { RadioBtnsHoriz, TxtNumInputGroup } from "../common/InputGroups";
 
 const ActionBtn = ({ title }) => (
   <Button className="fs-4 fw-bold w-50" id="button-addon1" variant="info">
@@ -72,7 +42,10 @@ const menuItems = [
     components: [
       TxtNumInputGroup({ title: "Скорость:", defaultValue: 100 }),
       TxtNumInputGroup({ title: "Время, с:", defaultValue: 30 }),
-      Selector({ options: ["По часовой", "Против часовой"] }),
+      RadioBtnsHoriz({
+        groupName: "Pump mode",
+        options: ["По часовой", "Против часовой"],
+      }),
       ActionBtn({ title: "Запустить насос" }),
     ],
   },
@@ -81,7 +54,10 @@ const menuItems = [
     components: [
       TxtNumInputGroup({ title: "Угол, °:", defaultValue: 180 }),
       TxtNumInputGroup({ title: "№ бутыли:", defaultValue: 1 }),
-      Selector({ options: ["По углу", "По номеру бутыли"] }),
+      RadioBtnsHoriz({
+        groupName: "Carousel mode",
+        options: ["По углу", "По номеру бутыли"],
+      }),
       ActionBtn({ title: "Перевести на заданную позицию" }),
     ],
   },

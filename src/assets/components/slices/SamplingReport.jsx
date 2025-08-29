@@ -2,9 +2,88 @@ import React from "react";
 
 import Table from "react-bootstrap/Table";
 
+import checkImg from "../../images/green_check_32x32.png";
+import crossImg from "../../images/red_cross_32x32.png";
 import HeaderOneBtn from "../common/HeaderOneBtn";
 
-const samplesReports = [
+const reports = [
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: true,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: true,
+    purgeFail: true,
+    timedOut: false,
+    powerFail: true,
+  },
+  {
+    isSuccess: false,
+    fullBottle: true,
+    rinseError: false,
+    userAborted: true,
+    carouselFault: true,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: true,
+    rinseError: false,
+    userAborted: true,
+    carouselFault: true,
+    pumpFault: true,
+    purgeFail: false,
+    timedOut: false,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: false,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: false,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: false,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: false,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: true,
+    timedOut: true,
+    powerFail: false,
+  },
   {
     isSuccess: true,
     fullBottle: false,
@@ -13,21 +92,69 @@ const samplesReports = [
     carouselFault: false,
     pumpFault: false,
     purgeFail: false,
-    timedOut: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: true,
+    fullBottle: false,
+    rinseError: false,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
     powerFail: false,
   },
   {
     isSuccess: false,
     fullBottle: false,
-    rinseError: false,
-    userAborted: true,
+    rinseError: true,
+    userAborted: false,
     carouselFault: false,
     pumpFault: false,
     purgeFail: false,
-    timedOut: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: false,
+    fullBottle: false,
+    rinseError: true,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
+    powerFail: false,
+  },
+  {
+    isSuccess: false,
+    fullBottle: false,
+    rinseError: true,
+    userAborted: false,
+    carouselFault: false,
+    pumpFault: false,
+    purgeFail: false,
+    timedOut: true,
     powerFail: false,
   },
 ];
+
+const CheckOrCross = ({ isOK }) => {
+  const imgSize = 16;
+  if (isOK) {
+    return <img alt="OK" height={imgSize} src={checkImg} width={imgSize} />;
+  }
+  return <img alt="Fail" height={imgSize} src={crossImg} width={imgSize} />;
+};
+
+const CrossOrNone = ({ isNotOK }) => {
+  const imgSize = 16;
+  if (isNotOK) {
+    return <img alt="OK" height={imgSize} src={crossImg} width={imgSize} />;
+  }
+};
 
 const NewProgram = ({ onExit }) => (
   <React.Fragment>
@@ -38,68 +165,86 @@ const NewProgram = ({ onExit }) => (
     />
     <Table bordered striped className="my-3 fs-4 fw-bold align-middle">
       <tbody className="border-3 border-dark text-center">
-        <td>
-          <tr className="border">
-            <td className="border">Статус / № пробы</td>
-            {samplesReports.map((report, i) => (
-              <td key={i}>{i + 1}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Успешно?</td>
-            {samplesReports.map(({ isSuccess }, i) => (
-              <td key={i}>{isSuccess ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Ёмкость заполнена?</td>
-            {samplesReports.map(({ fullBottle }, i) => (
-              <td key={i}>{fullBottle ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Ошибка промывка?</td>
-            {samplesReports.map(({ rinseError }, i) => (
-              <td key={i}>{rinseError ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Ручная отмена?</td>
-            {samplesReports.map(({ userAborted }, i) => (
-              <td key={i}>{userAborted ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Сбой карусели?</td>
-            {samplesReports.map(({ carouselFault }, i) => (
-              <td key={i}>{carouselFault ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Сбой насоса?</td>
-            {samplesReports.map(({ pumpFault }, i) => (
-              <td key={i}>{pumpFault ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Сбой промывки?</td>
-            {samplesReports.map(({ purgeFail }, i) => (
-              <td key={i}>{purgeFail ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Превышено время?</td>
-            {samplesReports.map(({ timedOut }, i) => (
-              <td key={i}>{timedOut ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-          <tr className="border">
-            <td className="border text-start">Сбой питания?</td>
-            {samplesReports.map(({ powerFail }, i) => (
-              <td key={i}>{powerFail ? "Да" : "Нет"}</td>
-            ))}
-          </tr>
-        </td>
+        <tr className="border">
+          <td className="border col-3">Статус / № пробы</td>
+          {reports.map((report, i) => (
+            <td key={i} className="border">
+              {i + 1}
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Отобрана?</td>
+          {reports.map(({ isSuccess }, i) => (
+            <td key={i} className="border">
+              <CheckOrCross isOK={isSuccess} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Ёмкость заполнена?</td>
+          {reports.map(({ fullBottle }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={fullBottle} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Ошибка промывки?</td>
+          {reports.map(({ rinseError }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={rinseError} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Ручная отмена?</td>
+          {reports.map(({ userAborted }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={userAborted} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Сбой карусели?</td>
+          {reports.map(({ carouselFault }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={carouselFault} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Сбой насоса?</td>
+          {reports.map(({ pumpFault }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={pumpFault} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Сбой промывки?</td>
+          {reports.map(({ purgeFail }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={purgeFail} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Превышено время?</td>
+          {reports.map(({ timedOut }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={timedOut} />
+            </td>
+          ))}
+        </tr>
+        <tr className="border">
+          <td className="border">Сбой питания?</td>
+          {reports.map(({ powerFail }, i) => (
+            <td key={i} className="border">
+              <CrossOrNone isNotOK={powerFail} />
+            </td>
+          ))}
+        </tr>
       </tbody>
     </Table>
   </React.Fragment>
