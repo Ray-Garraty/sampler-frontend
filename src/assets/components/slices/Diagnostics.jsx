@@ -32,6 +32,22 @@ const ModbusLog = () => (
   </div>
 );
 
+const SystemLog = () => (
+  <div>
+    <div className="p-1 text-center">Лог обмена сообщениями MODBUS:</div>
+    <div
+      className="p-3 fs-5 scrollspy-example bg-body-tertiary"
+      data-bs-smooth-scroll="true"
+      data-bs-spy="scroll"
+    >
+      События: питание вкл. / Сбой насоса / Сбой карусели / Низкое напряжение
+      батарейки RTC / Вход пользователя / Программа запущена, приостановлена,
+      возобновлена, завершена / Проба отобрана / Пора заменить трубку насоса /
+      Сбой температурного режима / Сбой устранён
+    </div>
+  </div>
+);
+
 const SensorTable = ({ title, values }) => (
   <Table bordered striped>
     <thead>
@@ -61,6 +77,7 @@ const menuItems = [
     ],
   },
   { title: "MODBUS", components: [ModbusLog()] },
+  { title: "Лог системы", components: [SystemLog()] },
 ];
 
 const Diagnostics = ({ onExit }) => (
