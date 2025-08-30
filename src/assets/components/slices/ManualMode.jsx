@@ -32,41 +32,94 @@ const menuItems = [
   {
     title: "Отобрать пробу",
     components: [
-      TxtNumInputGroup({ title: "№ бутыли:", defaultValue: 10 }),
-      TxtNumInputGroup({ title: "Объём пробы, мл:", defaultValue: 1000 }),
-      ActionBtn({ title: "Отобрать пробу" }),
+      <TxtNumInputGroup
+        key={"№ бутыли:"}
+        defaultValue={10}
+        increment={1}
+        max={24}
+        min={1}
+        title="№ бутыли:"
+      />,
+      <TxtNumInputGroup
+        key="Объём пробы, мл:"
+        defaultValue={1000}
+        increment={10}
+        max={1000}
+        min={10}
+        title="Объём пробы, мл:"
+      />,
+      <ActionBtn key="Отобрать пробу" title="Отобрать пробу" />,
     ],
   },
   {
     title: "Насос",
     components: [
-      TxtNumInputGroup({ title: "Скорость:", defaultValue: 100 }),
-      TxtNumInputGroup({ title: "Время, с:", defaultValue: 30 }),
-      RadioBtnsHoriz({
-        groupName: "Pump mode",
-        options: ["По часовой", "Против часовой"],
-      }),
-      ActionBtn({ title: "Запустить насос" }),
+      <TxtNumInputGroup
+        key="Скорость:"
+        defaultValue={100}
+        increment={100}
+        max={8000}
+        min={100}
+        title="Скорость:"
+      />,
+      <TxtNumInputGroup
+        key="Время, с:"
+        defaultValue={30}
+        increment={10}
+        max={6000}
+        min={10}
+        title="Время, с:"
+      />,
+      <RadioBtnsHoriz
+        key="Pump mode"
+        groupName="Pump mode"
+        options={["По часовой", "Против часовой"]}
+      />,
+      <ActionBtn key="Запустить насос" title="Запустить насос" />,
     ],
   },
   {
     title: "Карусель",
     components: [
-      TxtNumInputGroup({ title: "Угол, °:", defaultValue: 180 }),
-      TxtNumInputGroup({ title: "№ бутыли:", defaultValue: 1 }),
+      <TxtNumInputGroup
+        key="Угол, °:"
+        defaultValue={180}
+        increment={1}
+        max={360}
+        min={0}
+        title="Угол, °:"
+      />,
+      <TxtNumInputGroup
+        key="№ бутыли:"
+        defaultValue={1}
+        increment={1}
+        max={24}
+        min={1}
+        title="№ бутыли:"
+      />,
       RadioBtnsHoriz({
         groupName: "Carousel mode",
         options: ["По углу", "По номеру бутыли"],
       }),
-      ActionBtn({ title: "Перевести на заданную позицию" }),
+      <ActionBtn
+        key="Перевести на заданную позицию"
+        title="Перевести на заданную позицию"
+      />,
     ],
   },
   {
     title: "Охладитель",
     components: [
-      TempCells({ temps: [4.5, 4.2, 3.9] }),
-      TxtNumInputGroup({ title: "Целевая температура, °C:", defaultValue: 4 }),
-      ActionBtn({ title: "Запустить охладитель" }),
+      <TempCells key="temps" temps={[4.5, 4.2, 3.9]} />,
+      <TxtNumInputGroup
+        key="Целевая температура, °C:"
+        defaultValue={4}
+        increment={0.1}
+        max={20}
+        min={0}
+        title="Целевая температура, °C:"
+      />,
+      <ActionBtn key="Запустить охладитель" title="Запустить охладитель" />,
     ],
   },
 ];

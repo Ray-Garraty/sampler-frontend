@@ -63,12 +63,13 @@ const prettierConfig = [
 ];
 
 export default [
-  // Ignore .gitignore files/folder in eslint
   includeIgnoreFile(gitignorePath),
-  // Javascript Config
   ...jsConfig,
-  // React Config
   ...reactConfig,
-  // Prettier Config
   ...prettierConfig,
+  {
+    rules: {
+      "max-len": ['error', { 'code': 120 }],
+    },
+  },
 ];
