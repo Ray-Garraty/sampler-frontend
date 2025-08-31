@@ -24,13 +24,13 @@ const ProgramsList = ({ onExit, onCreateNew }) => {
   return (
     <React.Fragment>
       <HeaderTwoBtns
+        icon="ClipboardData"
         leftBtnTitle="Создать новую"
         mainTitle="РЕДАКТИРОВАНИЕ ПРОГРАММ"
         onLeftBtnClk={onCreateNew}
         onRightBtnClk={onExit}
         rightBtnTitle="Выйти в главное меню"
       />
-      ;
       <Stack direction="horizontal" gap={1} />
       <Accordion>
         {programs.map((programName, i) => (

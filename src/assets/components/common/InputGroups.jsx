@@ -28,9 +28,20 @@ export const TxtNumInputGroup = ({
     }
   };
   return (
-    <InputGroup className="w-50 m-1">
+    <InputGroup
+      className="m-2"
+      style={{
+        height: "40px",
+        lineHeight: "1",
+        maxWidth: "490px",
+      }}
+    >
       <InputGroup.Text
         className={`fs-4 fw-bold text-${disabledByParent ? "secondary" : "dark"}`}
+        style={{
+          lineHeight: "1",
+          width: "290px",
+        }}
       >
         {title}
       </InputGroup.Text>
@@ -40,14 +51,18 @@ export const TxtNumInputGroup = ({
         onClick={decreaseVal}
         variant={disabledByParent ? "secondary" : "primary"}
       >
-        &nbsp;&nbsp;-&nbsp;&nbsp;
+        &nbsp;-&nbsp;
       </Button>
       <Form.Control
+        readOnly
         aria-describedby="basic-addon1"
         aria-label="Example text with button addon"
         className={`fs-4 fw-bold text-center text-${disabledByParent ? "secondary" : "dark"}`}
         disabled={disabledByParent}
         value={val}
+        style={{
+          lineHeight: "1",
+        }}
       />
       <Button
         className="fs-4 fw-bold"
@@ -55,7 +70,7 @@ export const TxtNumInputGroup = ({
         onClick={increaseVal}
         variant={disabledByParent ? "secondary" : "primary"}
       >
-        &nbsp;&nbsp;+&nbsp;&nbsp;
+        &nbsp;+&nbsp;
       </Button>
     </InputGroup>
   );
@@ -83,8 +98,19 @@ export const RadioBtnsHoriz = ({ groupName, options }) => (
 );
 
 export const TextWithCheckInput = ({ title }) => (
-  <InputGroup className="m-1 w-50">
-    <Form.Control className="fw-bold fs-4 text-end" value={title} />
-    <InputGroup.Checkbox defaultChecked className="fw-bold fs-4" />
+  <InputGroup
+    className="m-1"
+    style={{
+      height: "40px",
+      lineHeight: "1",
+      maxWidth: "500px",
+    }}
+  >
+    <Form.Control readOnly className="fw-bold fs-4 text-end" value={title} />
+    <InputGroup.Checkbox
+      defaultChecked
+      className="fw-bold fs-4"
+      style={{ height: "30px", lineHeight: "1", width: "40px" }}
+    />
   </InputGroup>
 );
