@@ -9,7 +9,7 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 export const TxtNumInputGroup = ({
   title,
   defaultValue,
-  disabledByParent,
+  disabledByParent = false,
   increment,
   min,
   max,
@@ -69,6 +69,66 @@ export const TxtNumInputGroup = ({
         disabled={disabledByParent || val + increment > max}
         onClick={increaseVal}
         variant={disabledByParent ? "secondary" : "primary"}
+      >
+        &nbsp;+&nbsp;
+      </Button>
+    </InputGroup>
+  );
+};
+
+export const NumInputGroup = ({
+  defaultValue,
+  disabledByParent = false,
+  increment,
+  min,
+  max,
+}) => {
+  const [val, setVal] = useState(defaultValue);
+  const increaseVal = () => {
+    const result = val + increment;
+    if (val + increment <= max) {
+      setVal(result);
+    }
+  };
+  const decreaseVal = () => {
+    const result = val - increment;
+    if (val - increment >= min) {
+      setVal(result);
+    }
+  };
+  return (
+    <InputGroup
+      className="my-2"
+      style={{
+        height: "40px",
+        lineHeight: "1",
+        maxWidth: "200px",
+      }}
+    >
+      <Button
+        className="fs-4 fw-bold"
+        disabled={disabledByParent || val - increment < min}
+        onClick={decreaseVal}
+        variant={disabledByParent ? "secondary" : "warning"}
+      >
+        &nbsp;-&nbsp;
+      </Button>
+      <Form.Control
+        readOnly
+        aria-describedby="basic-addon1"
+        aria-label="Example text with button addon"
+        className={`fs-4 fw-bold text-center text-${disabledByParent ? "secondary" : "dark"}`}
+        disabled={disabledByParent}
+        value={val}
+        style={{
+          lineHeight: "1",
+        }}
+      />
+      <Button
+        className="fs-4 fw-bold"
+        disabled={disabledByParent || val + increment > max}
+        onClick={increaseVal}
+        variant={disabledByParent ? "secondary" : "warning"}
       >
         &nbsp;+&nbsp;
       </Button>
