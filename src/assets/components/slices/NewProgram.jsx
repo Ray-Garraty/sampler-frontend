@@ -9,8 +9,15 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "react-bootstrap";
+import {
+  Activity,
+  Alarm,
+  ArrowRight,
+  DropletFill,
+  MeasuringCup,
+  Toggles,
+} from "react-bootstrap-icons";
 
-import "../common/css/checkboxesRadios.css";
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
 
 const NumberInput = ({ label, name, min, max, value, onChange, step = 1 }) => (
@@ -118,16 +125,6 @@ const NewProgram = ({ onExit }) => {
           />
 
           <NumberInput
-            label="Длина вх. трубки, см"
-            max={1000}
-            min={10}
-            name="inletTubeLength"
-            onChange={handleChange}
-            step={10}
-            value={formData.inletTubeLength}
-          />
-
-          <NumberInput
             label="Объём ёмкости, мл"
             max={1000}
             min={100}
@@ -148,17 +145,25 @@ const NewProgram = ({ onExit }) => {
           />
 
           <NumberInput
-            label="⌀ трубки внутр., мм"
-            max={100}
+            label="Число промывок"
+            max={3}
             min={1}
-            name="tubeDiameter"
+            name="numWashings"
             onChange={handleChange}
-            value={formData.tubeDiameter}
+            value={formData.numWashings}
           />
 
-          {/* Flowmeter Dosing */}
+          <NumberInput
+            label="Число попыток отбора"
+            max={3}
+            min={1}
+            name="numAttempts"
+            onChange={handleChange}
+            value={formData.numAttempts}
+          />
+
           <ToggleButtonGroup
-            className="mb-3 w-100"
+            className="mb-2 w-100"
             type="checkbox"
             value={formData.flowmeterDosing ? ["flowmeterDosing"] : []}
             onChange={(val) =>
@@ -174,13 +179,14 @@ const NewProgram = ({ onExit }) => {
               value="flowmeterDosing"
               variant="outline-success"
             >
-              Дозирование по расходомеру
+              <Toggles />
+              &nbsp;&nbsp;Дозировать по расходомеру
             </ToggleButton>
           </ToggleButtonGroup>
 
-          {/* BLOCK 2 */}
+          {/* BLOCK 1 */}
           <div
-            className={`border border-3 rounded p-2 mb-3 bg-light ${
+            className={`border border-3 rounded px-2 pt-2  bg-light ${
               !formData.delayedStartEnabled ? "opacity-50" : ""
             }`}
           >
@@ -199,7 +205,8 @@ const NewProgram = ({ onExit }) => {
                 formData.delayedStartEnabled ? "primary" : "outline-secondary"
               }
             >
-              Отложенный старт
+              Активировать отложенный старт&nbsp;&nbsp;
+              <Alarm />
             </ToggleButton>
 
             <fieldset disabled={!formData.delayedStartEnabled}>
@@ -265,48 +272,85 @@ const NewProgram = ({ onExit }) => {
         {/* RIGHT COLUMN */}
         <Col md={6}>
           <NumberInput
-            label="Число промывок"
-            max={3}
-            min={1}
-            name="numWashings"
+            label="Длина вх. трубки, см"
+            max={1000}
+            min={10}
+            name="inletTubeLength"
             onChange={handleChange}
-            value={formData.numWashings}
+            step={10}
+            value={formData.inletTubeLength}
           />
 
           <NumberInput
-            label="Число попыток отбора"
-            max={3}
+            label="⌀ трубки внутр., мм"
+            max={100}
             min={1}
-            name="numAttempts"
+            name="tubeDiameter"
             onChange={handleChange}
-            value={formData.numAttempts}
+            value={formData.tubeDiameter}
           />
 
-          <NumberInput
-            label="Проб на одну ёмкость"
-            max={12}
-            min={1}
-            name="samplesPerContainer"
-            onChange={handleChange}
-            value={formData.samplesPerContainer}
-          />
-
-          <NumberInput
-            label="Ёмкостей на 1 пробу"
+          <div className="border border-3 rounded p-2 mb-1 bg-light ">
+            <ToggleButtonGroup
+              className="mb-1"
+              defaultValue="manySamplesToOneContainer"
+              name="dosingMethod"
+              type="radio"
+            >
+              <Form.Label className="fs-4 fw-bold ms-1 text-center my-auto">
+                Дозир. метод:
+              </Form.Label>
+              <ToggleButton
+                className="fs-4 fw-bold ms-2"
+                id="manySamplesToOneContainer"
+                value="manySamplesToOneContainer"
+                variant="outline-primary"
+              >
+                <DropletFill />
+                <DropletFill />
+                <DropletFill />
+                <ArrowRight />
+                <MeasuringCup />
+              </ToggleButton>
+              <ToggleButton
+                className="fs-4 fw-bold"
+                id="oneSampleToManyContainers"
+                value="oneSampleToManyContainers"
+                variant="outline-primary"
+              >
+                <DropletFill />
+                <ArrowRight />
+                <MeasuringCup />
+                <MeasuringCup />
+                <MeasuringCup />
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <NumberInput
+              label="Введите значение:"
+              max={12}
+              min={1}
+              name="samplesPerContainer"
+              onChange={handleChange}
+              value={formData.samplesPerContainer}
+            />
+          </div>
+          {/* <NumberInput
+            label=""
             max={12}
             min={1}
             name="containersPerSample"
             onChange={handleChange}
             value={formData.containersPerSample}
-          />
+          /> */}
 
-          {/* BLOCK 1 */}
-          <div className="border border-3 rounded p-2 mb-3 bg-light mt-2">
+          {/* BLOCK 2 */}
+          <div className="border border-3 rounded p-2 mb-3 bg-light ">
             <Form.Label className="fs-4 fw-bold text-center d-block">
-              Выберите триггер отбора
+              Задайте триггер отбора&nbsp;&nbsp;
+              <Activity />
             </Form.Label>
             <ToggleButtonGroup
-              className="mb-3 w-100"
+              className="mb-2 w-100"
               name="trigger"
               onChange={(val) => setFormData({ ...formData, trigger: val })}
               type="radio"
@@ -331,7 +375,7 @@ const NewProgram = ({ onExit }) => {
             </ToggleButtonGroup>
 
             <ToggleButtonGroup
-              className="mb-3 w-100"
+              className="mb-2 w-100"
               type="checkbox"
               value={formData.firstSampleNow ? ["firstSampleNow"] : []}
               onChange={(val) =>
@@ -347,7 +391,8 @@ const NewProgram = ({ onExit }) => {
                 value="firstSampleNow"
                 variant="outline-success"
               >
-                Отбор первой пробы сразу
+                <Toggles />
+                &nbsp;&nbsp;Первую пробу отбирать сразу
               </ToggleButton>
             </ToggleButtonGroup>
 
@@ -380,7 +425,7 @@ const NewProgram = ({ onExit }) => {
                   value={formData.numPulses}
                 />
 
-                <Form.Group as={Row} className="align-items-center mb-2">
+                <Form.Group as={Row} className="align-items-center">
                   <Form.Label column className="fs-4 fw-bold" xs={6}>
                     Макс. таймаут
                   </Form.Label>
