@@ -24,7 +24,7 @@ const ProgramsList = ({ onExit, onCreateNew }) => {
   return (
     <React.Fragment>
       <HeaderTwoBtns
-        icon="ClipboardData"
+        icon="LayoutTextSidebarReverse"
         leftBtnTitle="Создать новую"
         mainTitle="РЕДАКТИРОВАНИЕ ПРОГРАММ"
         onLeftBtnClk={onCreateNew}

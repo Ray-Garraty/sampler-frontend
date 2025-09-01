@@ -84,6 +84,7 @@ const Diagnostics = ({ onExit }) => (
   <React.Fragment>
     <HeaderOneBtn
       btnTitle="Выйти в главное меню"
+      icon="Cpu"
       mainTitle="АППАРАТНАЯ ДИАГНОСТИКА"
       onBtnClk={onExit}
     />

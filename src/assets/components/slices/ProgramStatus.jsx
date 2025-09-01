@@ -16,6 +16,7 @@ const programManageButtons = [
 const ProgramStatus = ({ onViewReport, onExit }) => (
   <React.Fragment>
     <HeaderTwoBtns
+      icon="RocketTakeoff"
       leftBtnTitle="Отчёт по пробам"
       mainTitle="СТАТУС ТЕКУЩЕЙ ПРОГРАММЫ"
       onLeftBtnClk={onViewReport}

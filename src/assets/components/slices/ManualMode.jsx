@@ -128,6 +128,7 @@ const ManualMode = ({ onExit }) => (
   <React.Fragment>
     <HeaderOneBtn
       btnTitle="Выйти в главное меню"
+      icon="PersonWalking"
       mainTitle="РУЧНОЕ УПРАВЛЕНИЕ"
       onBtnClk={onExit}
     />

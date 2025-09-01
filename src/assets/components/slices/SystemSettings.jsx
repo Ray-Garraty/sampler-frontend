@@ -8,6 +8,7 @@ const SystemSettings = ({ onExit }) => (
   <React.Fragment>
     <HeaderOneBtn
       btnTitle="Выйти в главное меню"
+      icon="Gear"
       mainTitle="СИСТЕМНЫЕ НАСТРОЙКИ"
       onBtnClk={onExit}
     />

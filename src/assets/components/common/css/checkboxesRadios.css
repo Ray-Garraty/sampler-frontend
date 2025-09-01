@@ -1,6 +1,0 @@
-.big-check input[type="checkbox"],
-.big-check input[type="radio"] {
-  transform: scale(1.4);
-  transform-origin: center;
-  margin-right: 10px;
-}

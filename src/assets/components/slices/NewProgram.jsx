@@ -103,7 +103,7 @@ const NewProgram = ({ onExit }) => {
   };
 
   return (
-    <Form className="m-3">
+    <Form className="mx-3">
       <HeaderTwoBtns
         icon="ClipboardPlus"
         leftBtnTitle="Сохранить программу"
