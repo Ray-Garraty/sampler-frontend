@@ -7,10 +7,26 @@ import Table from "react-bootstrap/Table";
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
 
 const programManageButtons = [
-  { title: "Запустить", style: "success", onBtnClick: "" },
-  { title: "Пауза / возобновить", style: "warning", onBtnClick: "" },
-  { title: "Перезапустить", style: "primary", onBtnClick: "" },
-  { title: "Завершить", style: "danger", onBtnClick: "" },
+  {
+    title: "Запустить",
+    style: "success",
+    onBtnClick: () => console.log("Starting..."),
+  },
+  {
+    title: "Пауза / возобновить",
+    style: "warning",
+    onBtnClick: () => console.log("Pause/resume..."),
+  },
+  {
+    title: "Перезапустить",
+    style: "primary",
+    onBtnClick: () => console.log("Restarting..."),
+  },
+  {
+    title: "Завершить",
+    style: "danger",
+    onBtnClick: () => console.log("Stopping..."),
+  },
 ];
 
 const ProgramStatus = ({ onViewReport, onExit }) => (
@@ -26,8 +42,8 @@ const ProgramStatus = ({ onViewReport, onExit }) => (
     <Stack className="mx-2 my-3" direction="horizontal" gap={2}>
       {programManageButtons.map(({ title, style, onBtnClick }) => (
         <Button
-          key="title"
-          className="fs-4 fw-bold mx-auto"
+          key={title}
+          className="fs-4 fw-bold mx-auto shadow"
           onClick={onBtnClick}
           variant={style}
         >
@@ -35,53 +51,55 @@ const ProgramStatus = ({ onViewReport, onExit }) => (
         </Button>
       ))}
     </Stack>
-    <Table bordered striped className="my-3 fs-4 fw-bold align-middle">
-      <tbody className="border-3 border-dark">
-        <tr className="text-center">
-          <th colSpan={3}>Сведения об активной программе</th>
-          <th colSpan={3}>Сведения о следующей пробе</th>
-        </tr>
-        <tr className="text-center">
-          <th>№</th>
-          <th>Статус</th>
-          <th>Ожидание</th>
-          <th>№ пробы</th>
-          <th>№ ёмкости</th>
-          <th>Когда отбор?</th>
-        </tr>
-        <tr className="text-center">
-          <td>1</td>
-          <td className="text-success">Выполняется</td>
-          <td className="text-warning">Не задано</td>
-          <td className="">13</td>
-          <td className="">12</td>
-          <td>Через 45 мин.</td>
-        </tr>
-      </tbody>
-    </Table>
-    <Table bordered striped className="my-3 fs-4 fw-bold align-middle">
-      <tbody className="border-3 border-dark">
-        <tr className="text-center">
-          <th>Текущие дата / время</th>
-          <th>Программа была запущена</th>
-          <th>Будет завершена</th>
-        </tr>
-        <tr className="text-center">
-          <td>{new Date().toLocaleString("ru-RU")}</td>
-          <td>{new Date().toLocaleString("ru-RU")}</td>
-          <td>{new Date().toLocaleString("ru-RU")}</td>
-        </tr>
-      </tbody>
-    </Table>
-    <Table striped className="my-3 fs-4 fw-bold align-middle">
-      <tbody className="border-3 border-dark">
-        <tr className="text-center">
-          <td className="text-primary">Всего попыток отбора: 10</td>
-          <td className="text-danger">Пропущенных проб: 2</td>
-          <td className="text-success">Осталось к отбору: 5</td>
-        </tr>
-      </tbody>
-    </Table>
+    <p className="m-2">
+      <Table bordered striped className="fs-4 fw-bold align-middle">
+        <tbody className="border-3 border-dark">
+          <tr className="text-center">
+            <th colSpan={3}>Сведения об активной программе</th>
+            <th colSpan={3}>Сведения о следующей пробе</th>
+          </tr>
+          <tr className="text-center">
+            <th>№</th>
+            <th>Статус</th>
+            <th>Ожидание</th>
+            <th>№ пробы</th>
+            <th>№ ёмкости</th>
+            <th>Когда отбор?</th>
+          </tr>
+          <tr className="text-center">
+            <td>1</td>
+            <td className="text-success">Выполняется</td>
+            <td className="text-warning">Не задано</td>
+            <td className="">13</td>
+            <td className="">12</td>
+            <td>Через 45 мин.</td>
+          </tr>
+        </tbody>
+      </Table>
+      <Table bordered striped className="my-3 fs-4 fw-bold align-middle">
+        <tbody className="border-3 border-dark">
+          <tr className="text-center">
+            <th>Текущие дата / время</th>
+            <th>Программа была запущена</th>
+            <th>Будет завершена</th>
+          </tr>
+          <tr className="text-center">
+            <td>{new Date().toLocaleString("ru-RU")}</td>
+            <td>{new Date().toLocaleString("ru-RU")}</td>
+            <td>{new Date().toLocaleString("ru-RU")}</td>
+          </tr>
+        </tbody>
+      </Table>
+      <Table striped className="my-3 fs-4 fw-bold align-middle">
+        <tbody className="border-3 border-dark">
+          <tr className="text-center">
+            <td className="text-primary">Всего попыток отбора: 10</td>
+            <td className="text-danger">Пропущенных проб: 2</td>
+            <td className="text-success">Осталось к отбору: 5</td>
+          </tr>
+        </tbody>
+      </Table>
+    </p>
   </React.Fragment>
 );
 

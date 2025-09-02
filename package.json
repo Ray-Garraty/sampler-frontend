@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "devwin": "start chrome --window-size=1024,600 http://localhost:5173 & vite",
-    "devlin": "firefox --window-size=1024,600 http://localhost:5173 & vite",
+    "devlin": "chromium --window-size=1024,600 http://localhost:5173 & vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

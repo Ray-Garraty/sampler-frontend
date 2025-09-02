@@ -13,7 +13,11 @@ const HeaderOneBtn = ({ mainTitle, btnTitle, onBtnClk, icon }) => (
       {mainTitle}
     </h3>
     <div>
-      <Button className="fs-4 fw-bold" onClick={onBtnClk} variant="danger">
+      <Button
+        className="fs-4 fw-bold shadow"
+        onClick={onBtnClk}
+        variant="danger"
+      >
         {btnTitle}
       </Button>
     </div>
