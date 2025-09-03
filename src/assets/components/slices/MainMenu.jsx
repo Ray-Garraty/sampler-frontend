@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import {
   Cpu,
   Gear,
@@ -9,14 +9,11 @@ import {
   RocketTakeoff,
 } from "react-bootstrap-icons";
 
-/* https://images2.imgbox.com/52/16/6OiGvGQr_o.jpg */
-import logoEcostab from "../../images/logo.jpg";
 import logoEcoinstrument from "../../images/logo_ecoinstrument.png";
-import CustomCard from "../common/CustomCard";
 
 const MainMenu = ({ activateSlice }) => {
   const buttonStyle = {
-    height: "150px", // uniform height for all buttons
+    height: "250px",
     background: "linear-gradient(180deg, #0d6efd 0%, #0a58ca 100%)",
     boxShadow: "0 6px 12px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2)",
     transition: "transform 0.15s ease, box-shadow 0.15s ease",
@@ -30,27 +27,22 @@ const MainMenu = ({ activateSlice }) => {
   // Button data
   const buttons = [
     {
-      icon: <LayoutTextSidebarReverse className="ms-2 me-2" size={75} />,
+      icon: <LayoutTextSidebarReverse className="ms-4 me-2" size={75} />,
       label: "Список программ",
       menu: "ProgramsList",
     },
     {
-      icon: <RocketTakeoff className="me-3" size={75} />,
+      icon: <RocketTakeoff className="ms-4 me-2" size={75} />,
       label: "Статус текущей программы",
       menu: "ProgramStatus",
     },
     {
-      icon: <PersonWalking className="me-3" size={75} />,
+      icon: <PersonWalking className="ms-4 me-2" size={75} />,
       label: "Ручное управление",
       menu: "ManualMode",
     },
     {
-      icon: <Cpu className="ms-3" size={75} />,
-      label: "Аппаратная диагностика",
-      menu: "Diagnostics",
-    },
-    {
-      icon: <Gear className="me-4" size={50} />,
+      icon: <Gear className="ms-4 me-2" size={75} />,
       label: "Системные настройки",
       menu: "SystemSettings",
     },
@@ -58,24 +50,25 @@ const MainMenu = ({ activateSlice }) => {
 
   return (
     <Container fluid className="vh-100 vw-100 d-flex flex-column bg-light">
-      {/* Logo Row */}
-      <Row className="mt-3 py-2" style={{ flex: "0 0 70px" }}>
+      <Row
+        className="mt-5 mb-3 justify-content-center"
+        style={{ flex: "0 0 70px" }}
+      >
         <Col className="text-center">
-          <Image
-            alt="Logo"
-            src="https://www.ecoinstrument.ru/upload/medialibrary/211/logo_300x56.png"
-            style={{ height: "65px" }}
+          <img
+            alt="logoEcoinstrument"
+            src={logoEcoinstrument}
+            style={{ height: "75px" }}
           />
         </Col>
       </Row>
 
-      {/* Buttons Grid */}
       <Row
         className="flex-grow-1 align-items-stretch justify-content-center"
         style={{ padding: "10px" }}
       >
-        <Col className="h-100" md={10} xs={12}>
-          <Row className="h-100 g-3">
+        <Col className="h-100" md={11} xs={16}>
+          <Row className="h-100 g-4">
             {buttons.map((btn, idx) => (
               <Col key={btn.label} className="d-flex" xs={idx === 4 ? 12 : 6}>
                 <Button

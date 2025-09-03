@@ -5,7 +5,7 @@ import Stack from "react-bootstrap/Stack";
 import { Cpu, Gear, PersonWalking } from "react-bootstrap-icons";
 
 const HeaderOneBtn = ({ mainTitle, btnTitle, onBtnClk, icon }) => (
-  <Stack className="m-2" direction="horizontal" gap={1}>
+  <Stack className="mx-2 my-3" direction="horizontal" gap={1}>
     <h3 className="mx-auto pt-2 text-center fw-bold text-secondary">
       {icon === "PersonWalking" && <PersonWalking className="me-3 mb-1" />}
       {icon === "Cpu" && <Cpu className="me-3 mb-1" />}
@@ -14,7 +14,7 @@ const HeaderOneBtn = ({ mainTitle, btnTitle, onBtnClk, icon }) => (
     </h3>
     <div>
       <Button
-        className="fs-4 fw-bold shadow"
+        className="fs-4 fw-bold shadow py-2"
         onClick={onBtnClk}
         variant="danger"
       >

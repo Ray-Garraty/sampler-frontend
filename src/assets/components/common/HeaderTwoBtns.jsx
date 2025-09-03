@@ -17,10 +17,10 @@ const HeaderTwoBtns = ({
   rightBtnTitle,
   onRightBtnClk,
 }) => (
-  <Stack className="m-2" direction="horizontal" gap={1}>
+  <Stack className="mx-2 my-3" direction="horizontal" gap={1}>
     <div className="fs-4 fw-bold">
       <Button
-        className="fs-4 fw-bold shadow"
+        className="fs-4 fw-bold shadow py-2"
         onClick={onLeftBtnClk}
         variant="primary"
       >
@@ -38,7 +38,7 @@ const HeaderTwoBtns = ({
     </h3>
     <div>
       <Button
-        className="fs-4 fw-bold shadow"
+        className="fs-4 fw-bold shadow py-2"
         onClick={onRightBtnClk}
         variant="danger"
       >

@@ -18,19 +18,21 @@ const ActionBtn = ({ title }) => (
 const TempCells = ({ temps }) => (
   <Pagination size="lg">
     <Pagination.Item key={"title"}>
-      <span className="text-dark">
+      <span className="fs-4 text-dark">
         Показания датчиков температуры в камере, °C:
       </span>
     </Pagination.Item>
     {temps.map((temp, i) => (
-      <Pagination.Item key={i}>{temp}</Pagination.Item>
+      <Pagination.Item key={i}>
+        <span className="fs-4">{temp}</span>
+      </Pagination.Item>
     ))}
   </Pagination>
 );
 
 const menuItems = [
   {
-    title: "Отобрать пробу",
+    title: "Отбор пробы",
     components: [
       <TxtNumInputGroup
         key={"№ бутыли:"}
@@ -54,6 +56,8 @@ const menuItems = [
   {
     title: "Насос",
     components: [
+      <p key="flow">Показания расходомера: ...</p>,
+      <p key="liquidSensor">Наличие воды в трубке: ...</p>,
       <TxtNumInputGroup
         key="Скорость:"
         defaultValue={100}
@@ -117,9 +121,16 @@ const menuItems = [
         increment={0.1}
         max={20}
         min={0}
-        title="Целевая температура, °C:"
+        title="Целевая темп-ра, °C:"
       />,
       <ActionBtn key="Запустить охладитель" title="Запустить охладитель" />,
+    ],
+  },
+  {
+    title: "Прочее",
+    components: [
+      <p key="rtcT">Температура RTC, °C:</p>,
+      <p key="cpuT">Температура ЦП, °C:</p>,
     ],
   },
 ];
@@ -132,11 +143,7 @@ const ManualMode = ({ onExit }) => (
       mainTitle="РУЧНОЕ УПРАВЛЕНИЕ"
       onBtnClk={onExit}
     />
-    <Tabs
-      justify
-      className="mb-3 fw-bold fs-3"
-      defaultActiveKey="Отобрать пробу"
-    >
+    <Tabs justify className="mb-3 fw-bold fs-3" defaultActiveKey={menuItems[0].title}>
       {menuItems.map(({ title, components }) => (
         <Tab
           key={title}

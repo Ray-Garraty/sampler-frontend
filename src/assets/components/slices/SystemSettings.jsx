@@ -60,6 +60,23 @@ const SystemSettings = ({ onExit }) => (
         </Accordion.Header>
         <Accordion.Body>Здесь будут настройки</Accordion.Body>
       </Accordion.Item>
+      <Accordion.Item eventKey={8}>
+        <Accordion.Header>
+          <div className="ms-3 fw-bold fs-3">Системный лог</div>
+        </Accordion.Header>
+        <Accordion.Body>
+          События: питание вкл. / Сбой насоса / Сбой карусели / Низкое
+          напряжение батарейки RTC / Вход пользователя / Программа запущена,
+          приостановлена, возобновлена, завершена / Проба отобрана / Пора
+          заменить трубку насоса / Сбой температурного режима / Сбой устранён
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey={9}>
+        <Accordion.Header>
+          <div className="ms-3 fw-bold fs-3">Лог MODBUS</div>
+        </Accordion.Header>
+        <Accordion.Body>Здесь будет лог команд и ответов MODBUS</Accordion.Body>
+      </Accordion.Item>
     </Accordion>
   </React.Fragment>
 );
