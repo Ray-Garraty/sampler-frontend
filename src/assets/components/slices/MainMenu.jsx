@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button, Col, Container, Row } from "react-bootstrap";
 import {
-  Cpu,
   Gear,
   LayoutTextSidebarReverse,
   PersonWalking,

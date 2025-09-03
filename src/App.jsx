@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-import Diagnostics from "./assets/components/slices/Diagnostics.jsx";
 import MainMenu from "./assets/components/slices/MainMenu.jsx";
 import ManualMode from "./assets/components/slices/ManualMode.jsx";
 import NewProgram from "./assets/components/slices/NewProgram.jsx";
@@ -37,8 +36,6 @@ const App = () => {
       return <ManualMode onExit={() => setActiveSlice("MainMenu")} />;
     case "SystemSettings":
       return <SystemSettings onExit={() => setActiveSlice("MainMenu")} />;
-    case "Diagnostics":
-      return <Diagnostics onExit={() => setActiveSlice("MainMenu")} />;
     case "NewProgram":
       return <NewProgram onExit={() => setActiveSlice("ProgramsList")} />;
     case "SamplingReport":
