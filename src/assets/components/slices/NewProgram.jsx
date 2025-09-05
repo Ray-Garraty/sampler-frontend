@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
 import {
-  Button,
   Col,
   Form,
-  InputGroup,
   Row,
   ToggleButton,
   ToggleButtonGroup,
@@ -19,52 +17,7 @@ import {
 } from "react-bootstrap-icons";
 
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
-
-const NumberInput = ({ label, name, min, max, value, onChange, step = 1 }) => (
-  <Form.Group as={Row} className="align-items-center mb-2">
-    <Form.Label column className="fs-4 fw-bold text-truncate" xs={7}>
-      {label}
-    </Form.Label>
-    <Col xs={5}>
-      <InputGroup>
-        <Button
-          className="px-2 fs-4 fw-bold"
-          disabled={value <= min}
-          variant="primary"
-          onClick={() =>
-            onChange({
-              target: { name, value: Math.max(min, value - step) },
-            })
-          }
-        >
-          −
-        </Button>
-        <Form.Control
-          className="fs-4 fw-bold text-center"
-          max={max}
-          min={min}
-          name={name}
-          onChange={onChange}
-          step={step}
-          type="number"
-          value={value}
-        />
-        <Button
-          className="px-2 fs-4 fw-bold"
-          disabled={value >= max}
-          variant="primary"
-          onClick={() =>
-            onChange({
-              target: { name, value: Math.min(max, Number(value) + step) },
-            })
-          }
-        >
-          +
-        </Button>
-      </InputGroup>
-    </Col>
-  </Form.Group>
-);
+import { NumberInput } from "../common/InputGroups";
 
 const NewProgram = ({ onExit }) => {
   const [formData, setFormData] = useState({
@@ -99,6 +52,7 @@ const NewProgram = ({ onExit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    alert("Программа сохранена!");
     console.log(formData);
   };
 

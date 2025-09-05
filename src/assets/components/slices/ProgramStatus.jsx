@@ -51,7 +51,7 @@ const ProgramStatus = ({ onViewReport, onExit }) => (
         </Button>
       ))}
     </Stack>
-    <p className="m-2">
+    <div className="m-2">
       <Table bordered striped className="fs-4 fw-bold align-middle">
         <tbody className="border-3 border-dark">
           <tr className="text-center">
@@ -99,7 +99,7 @@ const ProgramStatus = ({ onViewReport, onExit }) => (
           </tr>
         </tbody>
       </Table>
-    </p>
+    </div>
   </React.Fragment>
 );
 

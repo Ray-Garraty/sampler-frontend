@@ -41,7 +41,7 @@ const settings = [
   },
   {
     title: "Калибровка расходомера",
-    icon: <Tools className="me-3" color="purple" size={40} />,
+    icon: <Tools className="me-2" color="purple" size={40} />,
   },
   {
     title: "Пользователи и пароли",
