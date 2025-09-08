@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-import { Accordion, Button, Col, ListGroup, Row } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  Col,
+  ListGroup,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import {
   Activity,
   Circle,
@@ -17,28 +24,8 @@ import HeaderTwoBtns from "../common/HeaderTwoBtns";
 
 const programs = [
   {
-    isActive: true,
-    numContainers: 1,
-    inletTubeLength: 10,
-    containerVolume: 100,
-    sampleVolume: 100,
-    tubeDiameter: 1,
-    numWashings: 1,
-    numAttempts: 1,
-    flowmeterDosing: true,
-    samplesPerContainer: 1,
-    containersPerSample: 1,
-    trigger: "time",
-    firstSampleNow: true,
-    sampleInterval: "01:00",
-    numPulses: 1000,
-    maxTimeout: "23:00",
-    delayedStartEnabled: false,
-    delayedStart: "datetime",
-    startDateTime: "05.09.2025,10:00",
-    delayedNumPulses: 1000,
-  },
-  {
+    num: 1,
+    createdAt: "18.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -61,6 +48,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 2,
+    createdAt: "19.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -83,6 +72,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 3,
+    createdAt: "20.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -105,6 +96,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 4,
+    createdAt: "21.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -127,6 +120,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 5,
+    createdAt: "22.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -149,6 +144,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 6,
+    createdAt: "23.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -171,6 +168,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 7,
+    createdAt: "24.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -193,6 +192,8 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 8,
+    createdAt: "25.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -215,6 +216,32 @@ const programs = [
     delayedNumPulses: 1000,
   },
   {
+    num: 9,
+    createdAt: "26.08.2025,10:00",
+    isActive: false,
+    numContainers: 1,
+    inletTubeLength: 10,
+    containerVolume: 100,
+    sampleVolume: 100,
+    tubeDiameter: 1,
+    numWashings: 1,
+    numAttempts: 1,
+    flowmeterDosing: true,
+    samplesPerContainer: 1,
+    containersPerSample: 1,
+    trigger: "time",
+    firstSampleNow: true,
+    sampleInterval: "01:00",
+    numPulses: 1000,
+    maxTimeout: "23:00",
+    delayedStartEnabled: false,
+    delayedStart: "datetime",
+    startDateTime: "05.09.2025,10:00",
+    delayedNumPulses: 1000,
+  },
+  {
+    num: 10,
+    createdAt: "27.08.2025,10:00",
     isActive: false,
     numContainers: 1,
     inletTubeLength: 10,
@@ -295,6 +322,26 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
     },
   ];
 
+  const [activePrgNum, setActivePrgNum] = useState(1);
+
+  const onStart = (e, progNum) => {
+    e.stopPropagation();
+    const substr1 = `Вы уверены, что хотите запустить программу № ${progNum}?`;
+    const substr2 = activePrgNum
+      ? `При этом программа №${activePrgNum} будет остановлена!`
+      : "";
+    if (confirm(substr1 + substr2)) {
+      setActivePrgNum(progNum);
+    }
+  };
+
+  const onStop = (e, progNum) => {
+    e.stopPropagation();
+    if (confirm(`Вы уверены, что хотите остановить программу №${progNum}?`)) {
+      setActivePrgNum(null);
+    }
+  };
+
   return (
     <React.Fragment>
       <HeaderTwoBtns
@@ -311,51 +358,39 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
           return (
             <Accordion.Item key={key} className="mb-2" eventKey={key}>
               <Accordion.Header
-                className="border border-primary border-2 rounded"
-                style={{ backgroundColor: "#f8f9fa" }}
+                className={`border border-3 rounded border-${activePrgNum === program.num ? "primary" : null}`}
               >
                 <div className="d-flex justify-content-between align-items-center w-100">
-                  <div className="d-flex align-items-center">
-                    <span className="fw-bold fs-2">
-                      Программа отбора № {idx + 1}
-                    </span>
-                    <span
-                      className={`ms-4 fw-bold fs-4 ${
-                        program.isActive ? "text-success" : "text-secondary"
-                      }`}
+                  <span className="fw-bold fs-2">
+                    Программа отбора № {program.num} от{" "}
+                    {program.createdAt.split(",")[0]}
+                  </span>
+                  {activePrgNum === program.num ? (
+                    <Spinner variant="primary" />
+                  ) : null}
+                  {activePrgNum === program.num ? (
+                    <Button
+                      className="me-5 fs-5 fw-bold d-flex align-items-center"
+                      onClick={(e) => onStop(e, program.num)}
+                      variant="outline-danger"
                     >
-                      {program.isActive ? "● Выполняется" : null}
-                    </span>
-                  </div>
-
-                  {program.isActive ? (
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <Button
-                        className="me-5 fs-5 fw-bold d-flex align-items-center"
-                        onClick={() => onEdit(program)}
-                        variant="outline-danger"
-                      >
-                        <StopFill className="me-2" size={30} />
-                        Остановить
-                      </Button>
-                    </div>
+                      <StopFill className="me-2" size={30} />
+                      Остановить
+                    </Button>
                   ) : (
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <Button
-                        className="me-5 fs-5 fw-bold d-flex align-items-center"
-                        onClick={() => onEdit(program)}
-                        variant="outline-success"
-                      >
-                        <PlayFill className="me-2" size={30} />
-                        Запустить
-                      </Button>
-                    </div>
+                    <Button
+                      className="me-5 fs-5 fw-bold d-flex align-items-center"
+                      onClick={(e) => onStart(e, program.num)}
+                      variant="outline-success"
+                    >
+                      <PlayFill className="me-2" size={30} />
+                      Запустить
+                    </Button>
                   )}
                 </div>
               </Accordion.Header>
 
               <Accordion.Body>
-                {/* Main Settings */}
                 <div className="mb-3">
                   <h6 className="fw-bold border-bottom pb-1 mb-1 d-flex align-items-center">
                     <Gear className="me-2" />
@@ -368,6 +403,7 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
                           k !== "isActive" &&
                           !groups.some((g) => g.keys.includes(k)),
                       )
+                      .filter(([k]) => k !== "num" && k !== "createdAt")
                       .map(([k, v]) => (
                         <Col key={k}>
                           <ListGroup variant="flush">

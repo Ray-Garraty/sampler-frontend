@@ -20,6 +20,10 @@ import HeaderTwoBtns from "../common/HeaderTwoBtns";
 import { NumberInput } from "../common/InputGroups";
 
 const NewProgram = ({ onExit }) => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   const [formData, setFormData] = useState({
     numContainers: 1,
     inletTubeLength: 10,
@@ -29,6 +33,7 @@ const NewProgram = ({ onExit }) => {
     numWashings: 1,
     numAttempts: 1,
     flowmeterDosing: true,
+    dosingAlgorithm: "samplesPerContainer",
     samplesPerContainer: 1,
     containersPerSample: 1,
     trigger: "time",
@@ -38,7 +43,7 @@ const NewProgram = ({ onExit }) => {
     maxTimeout: "23:59",
     delayedStartEnabled: false,
     delayedStart: "datetime",
-    startDateTime: "",
+    startDateTime: tomorrow.toISOString().slice(0, 16),
     delayedNumPulses: 1000,
   });
 
@@ -138,11 +143,177 @@ const NewProgram = ({ onExit }) => {
             </ToggleButton>
           </ToggleButtonGroup>
 
-          {/* BLOCK 2 */}
-          <div className="border border-3 rounded p-2 mb-3 bg-light ">
+          {/* DELAYED START BLOCK */}
+          <div
+            className={`border border-3 border-primary rounded px-2 pt-2  bg-light ${
+              !formData.delayedStartEnabled ? "opacity-50" : ""
+            }`}
+          >
+            <ToggleButton
+              checked={formData.delayedStartEnabled}
+              className="fs-4 fw-bold w-100 mb-2"
+              id="delayed-start-toggle"
+              type="checkbox"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  delayedStartEnabled: e.currentTarget.checked,
+                })
+              }
+              variant={
+                formData.delayedStartEnabled ? "success" : "outline-success"
+              }
+            >
+              Активировать отложенный старт&nbsp;&nbsp;
+              <Alarm />
+            </ToggleButton>
+
+            <fieldset disabled={!formData.delayedStartEnabled}>
+              <ToggleButtonGroup
+                className="mb-3 w-100"
+                name="delayedStart"
+                type="radio"
+                value={formData.delayedStart}
+                onChange={(val) =>
+                  setFormData({ ...formData, delayedStart: val })
+                }
+              >
+                <ToggleButton
+                  className="fs-4 fw-bold flex-fill"
+                  id="start-datetime"
+                  value="datetime"
+                  variant="outline-primary"
+                >
+                  по дате-времени
+                </ToggleButton>
+                <ToggleButton
+                  className="fs-4 fw-bold flex-fill"
+                  id="start-pulses"
+                  value="pulses"
+                  variant="outline-primary"
+                >
+                  по импульсам
+                </ToggleButton>
+              </ToggleButtonGroup>
+
+              {formData.delayedStart === "datetime" && (
+                <Form.Group as={Row} className="align-items-center mb-2">
+                  <Form.Label column className="fs-4 fw-bold" xs={5}>
+                    Дата, время:
+                  </Form.Label>
+                  <Col xs={7}>
+                    <Form.Control
+                      className="fs-4 fw-bold"
+                      name="startDateTime"
+                      onChange={handleChange}
+                      type="datetime-local"
+                      value={formData.startDateTime}
+                    />
+                  </Col>
+                </Form.Group>
+              )}
+
+              {formData.delayedStart === "pulses" && (
+                <NumberInput
+                  label="Число импульсов"
+                  max={100000}
+                  min={1000}
+                  name="delayedNumPulses"
+                  onChange={handleChange}
+                  step={1000}
+                  value={formData.delayedNumPulses}
+                />
+              )}
+            </fieldset>
+          </div>
+        </Col>
+
+        {/* RIGHT COLUMN */}
+        <Col md={6}>
+          <NumberInput
+            label="Длина вх. трубки, см"
+            max={1000}
+            min={10}
+            name="inletTubeLength"
+            onChange={handleChange}
+            step={10}
+            value={formData.inletTubeLength}
+          />
+
+          <NumberInput
+            label="⌀ трубки внутр., мм"
+            max={100}
+            min={1}
+            name="tubeDiameter"
+            onChange={handleChange}
+            value={formData.tubeDiameter}
+          />
+
+          {/* DOSING ALGORITHM BLOCK */}
+          <div className="border border-3 border-primary rounded p-2 mb-1 bg-light ">
+            <Form.Label className="fs-4 fw-bold ms-1 text-center d-block">
+              Выберите метод дозирования:
+            </Form.Label>
+            <ToggleButtonGroup
+              className="mb-1 w-100"
+              name="dosingMethod"
+              type="radio"
+              value={formData.dosingAlgorithm}
+              onChange={(val) =>
+                setFormData({ ...formData, dosingAlgorithm: val })
+              }
+            >
+              <ToggleButton
+                className="fs-4 fw-bold ms-2"
+                id="manySamplesToOneContainer"
+                value="samplesPerContainer"
+                variant="outline-primary"
+              >
+                <DropletFill />
+                <DropletFill />
+                <DropletFill />
+                <ArrowRight />
+                <MeasuringCup />
+              </ToggleButton>
+              <ToggleButton
+                className="fs-4 fw-bold"
+                id="oneSampleToManyContainers"
+                value="containersPerSample"
+                variant="outline-primary"
+              >
+                <DropletFill />
+                <ArrowRight />
+                <MeasuringCup />
+                <MeasuringCup />
+                <MeasuringCup />
+              </ToggleButton>
+            </ToggleButtonGroup>
+
+            {formData.dosingAlgorithm === "samplesPerContainer" ? (
+              <NumberInput
+                label="Проб на одну ёмкость:"
+                max={12}
+                min={1}
+                name="samplesPerContainer"
+                onChange={handleChange}
+                value={formData.samplesPerContainer}
+              />
+            ) : (
+              <NumberInput
+                label="Ёмкостей на 1 пробу:"
+                max={12}
+                min={1}
+                name="containersPerSample"
+                onChange={handleChange}
+                value={formData.containersPerSample}
+              />
+            )}
+          </div>
+          {/* SAMPLING TRIGGER BLOCK */}
+          <div className="border border-3 border-primary rounded p-2 mb-3 mt-2 bg-light ">
             <Form.Label className="fs-4 fw-bold text-center d-block">
-              Задайте триггер отбора&nbsp;&nbsp;
-              <Activity />
+              <Activity className="me-3" />
+              Выберите триггер отбора:
             </Form.Label>
             <ToggleButtonGroup
               className="mb-2 w-100"
@@ -236,164 +407,6 @@ const NewProgram = ({ onExit }) => {
                 </Form.Group>
               </React.Fragment>
             )}
-          </div>
-        </Col>
-
-        {/* RIGHT COLUMN */}
-        <Col md={6}>
-          <NumberInput
-            label="Длина вх. трубки, см"
-            max={1000}
-            min={10}
-            name="inletTubeLength"
-            onChange={handleChange}
-            step={10}
-            value={formData.inletTubeLength}
-          />
-
-          <NumberInput
-            label="⌀ трубки внутр., мм"
-            max={100}
-            min={1}
-            name="tubeDiameter"
-            onChange={handleChange}
-            value={formData.tubeDiameter}
-          />
-
-          <div className="border border-3 rounded p-2 mb-1 bg-light ">
-            <Form.Label className="fs-4 fw-bold ms-1 text-center d-block">
-              Выберите метод дозирования
-            </Form.Label>
-            <ToggleButtonGroup
-              className="mb-1 w-100"
-              defaultValue="manySamplesToOneContainer"
-              name="dosingMethod"
-              type="radio"
-            >
-              <ToggleButton
-                className="fs-4 fw-bold ms-2"
-                id="manySamplesToOneContainer"
-                value="manySamplesToOneContainer"
-                variant="outline-primary"
-              >
-                <DropletFill />
-                <DropletFill />
-                <DropletFill />
-                <ArrowRight />
-                <MeasuringCup />
-              </ToggleButton>
-              <ToggleButton
-                className="fs-4 fw-bold"
-                id="oneSampleToManyContainers"
-                value="oneSampleToManyContainers"
-                variant="outline-primary"
-              >
-                <DropletFill />
-                <ArrowRight />
-                <MeasuringCup />
-                <MeasuringCup />
-                <MeasuringCup />
-              </ToggleButton>
-            </ToggleButtonGroup>
-            <NumberInput
-              label="Проб на 1 ёмкость:"
-              max={12}
-              min={1}
-              name="samplesPerContainer"
-              onChange={handleChange}
-              value={formData.samplesPerContainer}
-            />
-            <NumberInput
-              label="Ёмкостей на 1 пробу:"
-              max={12}
-              min={1}
-              name="containersPerSample"
-              onChange={handleChange}
-              value={formData.containersPerSample}
-            />
-          </div>
-          {/* BLOCK 1 */}
-          <div
-            className={`border border-3 rounded px-2 pt-2  bg-light ${
-              !formData.delayedStartEnabled ? "opacity-50" : ""
-            }`}
-          >
-            <ToggleButton
-              checked={formData.delayedStartEnabled}
-              className="fs-4 fw-bold w-100 mb-2"
-              id="delayed-start-toggle"
-              type="checkbox"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  delayedStartEnabled: e.currentTarget.checked,
-                })
-              }
-              variant={
-                formData.delayedStartEnabled ? "success" : "outline-success"
-              }
-            >
-              Активировать отложенный старт&nbsp;&nbsp;
-              <Alarm />
-            </ToggleButton>
-
-            <fieldset disabled={!formData.delayedStartEnabled}>
-              <ToggleButtonGroup
-                className="mb-3 w-100"
-                name="delayedStart"
-                type="radio"
-                value={formData.delayedStart}
-                onChange={(val) =>
-                  setFormData({ ...formData, delayedStart: val })
-                }
-              >
-                <ToggleButton
-                  className="fs-4 fw-bold flex-fill"
-                  id="start-datetime"
-                  value="datetime"
-                  variant="outline-primary"
-                >
-                  дата, время
-                </ToggleButton>
-                <ToggleButton
-                  className="fs-4 fw-bold flex-fill"
-                  id="start-pulses"
-                  value="pulses"
-                  variant="outline-primary"
-                >
-                  по импульсам
-                </ToggleButton>
-              </ToggleButtonGroup>
-
-              {formData.delayedStart === "datetime" && (
-                <Form.Group as={Row} className="align-items-center mb-2">
-                  <Form.Label column className="fs-4 fw-bold" xs={5}>
-                    Дата, время:
-                  </Form.Label>
-                  <Col xs={7}>
-                    <Form.Control
-                      className="fs-4 fw-bold"
-                      name="startDateTime"
-                      onChange={handleChange}
-                      type="datetime-local"
-                      value={formData.startDateTime}
-                    />
-                  </Col>
-                </Form.Group>
-              )}
-
-              {formData.delayedStart === "pulses" && (
-                <NumberInput
-                  label="Число импульсов"
-                  max={100000}
-                  min={1000}
-                  name="delayedNumPulses"
-                  onChange={handleChange}
-                  step={1000}
-                  value={formData.delayedNumPulses}
-                />
-              )}
-            </fieldset>
           </div>
         </Col>
       </Row>

@@ -156,7 +156,7 @@ const CrossOrNone = ({ isNotOK }) => {
   }
 };
 
-const NewProgram = ({ onExit }) => (
+const SamplingReport = ({ onExit }) => (
   <React.Fragment>
     <HeaderOneBtn
       btnTitle="Вернуться назад"
@@ -250,4 +250,4 @@ const NewProgram = ({ onExit }) => (
   </React.Fragment>
 );
 
-export default NewProgram;
+export default SamplingReport;

@@ -37,7 +37,19 @@ const App = () => {
     case "SystemSettings":
       return <SystemSettings onExit={() => setActiveSlice("MainMenu")} />;
     case "NewProgram":
-      return <NewProgram onExit={() => setActiveSlice("ProgramsList")} />;
+      return (
+        <NewProgram
+          onExit={() => {
+            if (
+              confirm(
+                "Несохранённые данные будут утеряны.\nВы уверены, что хотите выйти?",
+              )
+            ) {
+              setActiveSlice("ProgramsList");
+            }
+          }}
+        />
+      );
     case "SamplingReport":
       return <SamplingReport onExit={() => setActiveSlice("ProgramStatus")} />;
     default:
