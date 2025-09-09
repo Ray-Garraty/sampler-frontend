@@ -57,8 +57,21 @@ const NewProgram = ({ onExit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Программа сохранена!");
-    console.log(formData);
+    fetch("http://localhost:4000/saveNewProg", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.table(data.data);
+        alert("Программа сохранена!");
+      })
+      .catch((error) => {
+        console.error("Error saving new program", error);
+      });
   };
 
   return (
