@@ -25,6 +25,8 @@ import {
 
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
 
+const serverAddress = "http://localhost:4000/";
+
 const labels = {
   numContainers: "Число ёмкостей",
   inletTubeLength: "Длина вх. трубки, см",
@@ -34,6 +36,7 @@ const labels = {
   numWashings: "Число промывок",
   numAttempts: "Число попыток отбора",
   flowmeterDosing: "Дозировать по расходомеру",
+  dosingAlgorithm: "Метод дозирования",
   samplesPerContainer: "Число проб на 1 ёмкость",
   containersPerSample: "Число ёмкостей на 1 пробу",
   trigger: "Триггер отбора",
@@ -51,7 +54,7 @@ const groups = [
   {
     title: "Дозирование",
     icon: <MeasuringCup className="me-2" />,
-    keys: ["containersPerSample", "samplesPerContainer"],
+    keys: ["dosingAlgorithm", "containersPerSample", "samplesPerContainer"],
   },
   {
     title: "Параметры трубки",
@@ -88,19 +91,62 @@ const onStart = (e, progNum, activeN, setActive) => {
     ? `При этом программа №${activeN} будет остановлена!`
     : "";
   if (confirm(substr1 + substr2)) {
-    setActive(progNum);
+    fetch(`${serverAddress}setActiveProgNum`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ progNum }),
+    })
+      .then((response) => {
+        response.json().then((res) => {
+          console.log(res.data);
+          setActive(res.data.activeProgNum);
+        });
+      })
+      .catch((err) => console.error(err));
   }
 };
 
 const onStop = (e, progNum, setActive) => {
   e.stopPropagation();
   if (confirm(`Вы уверены, что хотите остановить программу №${progNum}?`)) {
-    setActive(null);
+    fetch(`${serverAddress}stopProgram`)
+      .then(() => {
+        setActive(0);
+      })
+      .catch((err) => console.error(err));
   }
 };
 
-const MainContent = ({ renderList, activeNum, setActivePrN }) => (
-  <Accordion alwaysOpen className="border-2 mx-2">
+const onProgDel = (progNum, setProgs) => {
+  if (confirm(`Вы уверены, что хотите удалить программу №${progNum}?`)) {
+    fetch(`${serverAddress}deleteProgram`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ progNum }),
+    })
+      .then((response) => {
+        response.json().then((res) => {
+          // console.dir(res.data);
+          setProgs(res.data);
+        });
+      })
+      .catch((err) => console.error(err));
+  }
+};
+
+const MainBody = ({
+  renderList,
+  activeNum,
+  setActivePrN,
+  onEdit,
+  onDel,
+  setPrgs,
+}) => (
+  <Accordion className="border-2 mx-2">
     {renderList.map((program, idx) => {
       const key = idx.toString();
       return (
@@ -114,7 +160,7 @@ const MainContent = ({ renderList, activeNum, setActivePrN }) => (
                 {program.createdAt.split(",")[0]}
               </span>
               {activeNum === program.num ? (
-                <Spinner animation="grow" variant="success" />
+                <Spinner animation="grow" variant="primary" />
               ) : null}
               {activeNum === program.num ? (
                 <Button
@@ -194,10 +240,11 @@ const MainContent = ({ renderList, activeNum, setActivePrN }) => (
               </div>
             ))}
 
+            {/* Manage buttons */}
             <div className="text-center mt-3">
               <Button
                 className="me-5 px-4 py-2 fw-bold shadow"
-                onClick={() => console.log("Switching to editing mode...")}
+                onClick={() => onEdit(program.num)}
                 size="lg"
                 variant="primary"
               >
@@ -206,7 +253,7 @@ const MainContent = ({ renderList, activeNum, setActivePrN }) => (
               </Button>
               <Button
                 className="px-4 py-2 fw-bold shadow"
-                onClick={() => console.log("Switching to editing mode...")}
+                onClick={() => onDel(program.num, setPrgs)}
                 size="lg"
                 variant="danger"
               >
@@ -222,22 +269,28 @@ const MainContent = ({ renderList, activeNum, setActivePrN }) => (
 );
 
 const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
-  const [data, setData] = useState(null);
+  const [programs, setPrograms] = useState(null);
+  const [activePrgNum, setActivePrgNum] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const [activePrgNum, setActivePrgNum] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/fetchPrograms");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const [response1, response2] = await Promise.all([
+          fetch(`${serverAddress}fetchPrograms`),
+          fetch(`${serverAddress}fetchActiveProgNum`),
+        ]);
+
+        if (!response1.ok || !response2.ok) {
+          throw new Error("One or more requests failed");
         }
-        const result = await response.json();
-        setData(result);
-        console.dir(result);
+        const result1 = await response1.json();
+        const result2 = await response2.json();
+        setPrograms(result1);
+        setActivePrgNum(result2);
+        console.dir(result1);
+        console.log(result2);
       } catch (err) {
         setError(err);
       } finally {
@@ -252,21 +305,26 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
     <React.Fragment>
       <HeaderTwoBtns
         icon="LayoutTextSidebarReverse"
-        leftBtnTitle="Создать новую"
+        leftBtnTitle="Создать новую программу"
         mainTitle="СПИСОК ПРОГРАММ"
         onLeftBtnClk={onCreateNew}
         onRightBtnClk={onExit}
         rightBtnTitle="Выйти в главное меню"
       />
+      {error ? <h3 className="text-danger">Ошибка загрузки данных</h3> : null}
       {isLoading ? (
-        <div className="text-center">
+        <div className="text-center fst-italic fw-bold fs-3">
+          Подождите, идёт загрузка {"     "}
           <Spinner variant="info" />
         </div>
       ) : (
-        <MainContent
+        <MainBody
           activeNum={activePrgNum}
-          renderList={data}
+          onDel={onProgDel}
+          onEdit={onEdit}
+          renderList={programs}
           setActivePrN={setActivePrgNum}
+          setPrgs={setPrograms}
         />
       )}
     </React.Fragment>

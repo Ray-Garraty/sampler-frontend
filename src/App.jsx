@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 /* eslint-disable import-x/extensions */
 import React, { useState } from "react";
 
@@ -22,6 +24,7 @@ const App = () => {
       return (
         <ProgramsList
           onCreateNew={() => setActiveSlice("NewProgram")}
+          onEdit={() => setActiveSlice("NewProgram")}
           onExit={() => setActiveSlice("MainMenu")}
         />
       );

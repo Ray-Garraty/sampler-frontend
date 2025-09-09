@@ -160,6 +160,7 @@ const SamplingReport = ({ onExit }) => (
   <React.Fragment>
     <HeaderOneBtn
       btnTitle="Вернуться назад"
+      icon="Table"
       mainTitle="ОТЧЁТ ПО ПРОБАМ"
       onBtnClk={onExit}
     />

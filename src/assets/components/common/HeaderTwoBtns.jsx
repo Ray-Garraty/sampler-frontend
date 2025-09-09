@@ -7,6 +7,7 @@ import {
   ClipboardPlus,
   LayoutTextSidebarReverse,
   RocketTakeoff,
+  XSquare,
 } from "react-bootstrap-icons";
 
 const HeaderTwoBtns = ({
@@ -14,36 +15,27 @@ const HeaderTwoBtns = ({
   icon,
   leftBtnTitle,
   onLeftBtnClk,
-  rightBtnTitle,
   onRightBtnClk,
 }) => (
   <Stack className="mx-2 my-3" direction="horizontal" gap={1}>
-    <div className="fs-4 fw-bold">
-      <Button
-        className="fs-4 fw-bold shadow py-2"
-        onClick={onLeftBtnClk}
-        variant="primary"
-      >
-        {leftBtnTitle}
-      </Button>
-    </div>
-    <h3 className="mx-auto pt-2 text-center fw-bold text-secondary">
-      {mainTitle}
-      {icon === "ClipboardPlus" && <ClipboardPlus className="ms-3 mb-1" />}
-      {icon === "ClipboardData" && <ClipboardData className="ms-3 mb-1" />}
-      {icon === "RocketTakeoff" && <RocketTakeoff className="ms-3 mb-1" />}
+    <Button
+      className="fs-3 fw-bold shadow py-2"
+      onClick={onLeftBtnClk}
+      variant="primary"
+    >
+      {leftBtnTitle}
+    </Button>
+    <h2 className="mx-auto pt-2 text-center fw-bold text-secondary">
+      {icon === "ClipboardPlus" && <ClipboardPlus className="me-4 mb-1" />}
+      {icon === "ClipboardData" && <ClipboardData className="me-4 mb-1" />}
+      {icon === "RocketTakeoff" && <RocketTakeoff className="me-4 mb-1" />}
       {icon === "LayoutTextSidebarReverse" && (
-        <LayoutTextSidebarReverse className="ms-3 mb-1" />
+        <LayoutTextSidebarReverse className="me-4 mb-1" />
       )}
-    </h3>
+      {mainTitle}
+    </h2>
     <div>
-      <Button
-        className="fs-4 fw-bold shadow py-2"
-        onClick={onRightBtnClk}
-        variant="danger"
-      >
-        {rightBtnTitle}
-      </Button>
+      <XSquare className="text-danger" onClick={onRightBtnClk} size={60} />
     </div>
   </Stack>
 );

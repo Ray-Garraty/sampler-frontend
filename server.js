@@ -9,7 +9,7 @@ const port = 4000;
 app.use(cors());
 app.use(express.json());
 
-const activeProgNum = 0;
+let activeProgNum = 0;
 
 const reviveNumbers = (key, value) => {
   if (
@@ -30,7 +30,14 @@ app.listen(port, () => {
 });
 
 app.get("/fetchActiveProgNum", (req, res) => {
+  console.log(activeProgNum);
   res.send(activeProgNum);
+});
+
+app.get("/stopProgram", (req, res) => {
+  console.log("Deactivating current program...");
+  activeProgNum = 0;
+  res.send(0);
 });
 
 app.get("/fetchPrograms", (req, res) => {
@@ -40,6 +47,42 @@ app.get("/fetchPrograms", (req, res) => {
     }
     console.log("Sending programs...");
     res.send(data);
+  });
+});
+
+app.post("/setActiveProgNum", (req, res) => {
+  const { progNum } = req.body;
+  console.log(`Setting program #${progNum} active...`);
+  activeProgNum = progNum;
+  res.json({
+    message: "Program activated successfully",
+    data: { activeProgNum },
+  });
+});
+
+app.post("/deleteProgram", (req, res) => {
+  const { progNum } = req.body;
+  if (activeProgNum === progNum) {
+    activeProgNum = 0;
+  }
+  fs.readFile("data/programs.json", "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading programs.json file:", err);
+    }
+    const oldPrograms = JSON.parse(data, reviveNumbers);
+    console.log(`\nDeleting program #${progNum}...\n`);
+    const updatedPrograms = oldPrograms.filter(({ num }) => num !== progNum);
+    const newProgramsString = JSON.stringify(updatedPrograms, null, 2);
+    fs.writeFile("data/programs.json", newProgramsString, (error) => {
+      if (error) {
+        console.error("Error writing programs.json file:", error);
+        return;
+      }
+      res.json({
+        message: `Program ${progNum} deleted successfully`,
+        data: updatedPrograms,
+      });
+    });
   });
 });
 
