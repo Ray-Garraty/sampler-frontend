@@ -13,6 +13,7 @@ import {
 const HeaderTwoBtns = ({
   mainTitle,
   icon,
+  isLeftBtnDisabled,
   leftBtnTitle,
   onLeftBtnClk,
   onRightBtnClk,
@@ -20,6 +21,7 @@ const HeaderTwoBtns = ({
   <Stack className="mx-2 my-3" direction="horizontal" gap={1}>
     <Button
       className="fs-3 fw-bold shadow py-2"
+      disabled={isLeftBtnDisabled}
       onClick={onLeftBtnClk}
       variant="primary"
     >

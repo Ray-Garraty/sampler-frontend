@@ -67,9 +67,4 @@ export default [
   ...jsConfig,
   ...reactConfig,
   ...prettierConfig,
-  {
-    rules: {
-      "max-len": ['error', { 'code': 120 }],
-    },
-  },
 ];

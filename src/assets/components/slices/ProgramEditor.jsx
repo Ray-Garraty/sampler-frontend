@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-console */
 /* eslint-disable no-alert */
 import React, { useState } from "react";
 
@@ -20,12 +22,13 @@ import {
 import HeaderTwoBtns from "../common/HeaderTwoBtns";
 import { NumberInput } from "../common/InputGroups";
 
-const NewProgram = ({ onExit }) => {
+const ProgramEditor = ({ clearProgParams, progData, onExit }) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
+    num: null,
     numContainers: 1,
     inletTubeLength: 10,
     containerVolume: 100,
@@ -46,9 +49,13 @@ const NewProgram = ({ onExit }) => {
     delayedStart: "datetime",
     startDateTime: tomorrow.toISOString().slice(0, 16),
     delayedNumPulses: 1000,
-  });
+  };
+
+  const [formData, setFormData] = useState(progData || defaultFormData);
+  const [isChanged, setIsChanged] = useState(false);
 
   const handleChange = (e) => {
+    setIsChanged(true);
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -69,6 +76,7 @@ const NewProgram = ({ onExit }) => {
       .then((data) => {
         console.table(data.data);
         alert("Программа сохранена!");
+        onExit();
       })
       .catch((error) => {
         console.error("Error saving new program", error);
@@ -79,11 +87,29 @@ const NewProgram = ({ onExit }) => {
     <Form className="mx-3">
       <HeaderTwoBtns
         icon="ClipboardPlus"
-        leftBtnTitle="Сохранить программу"
-        mainTitle="НОВАЯ ПРОГРАММА"
+        isLeftBtnDisabled={!isChanged && formData.num !== null}
+        leftBtnTitle="Сохранить"
         onLeftBtnClk={handleSubmit}
-        onRightBtnClk={onExit}
         rightBtnTitle="Вернуться к списку"
+        mainTitle={
+          formData.num === null
+            ? "НОВАЯ ПРОГРАММА"
+            : `РЕДАКТИРОВАНИЕ ПРОГРАММЫ №${formData.num}`
+        }
+        onRightBtnClk={() => {
+          clearProgParams(null);
+          if (isChanged) {
+            if (
+              confirm(
+                "Несохранённые данные будут утеряны.\nВы уверены, что хотите выйти?",
+              )
+            ) {
+              onExit();
+            }
+          } else {
+            onExit();
+          }
+        }}
       />
       <Row>
         {/* LEFT COLUMN */}
@@ -139,12 +165,13 @@ const NewProgram = ({ onExit }) => {
             className="mb-2 w-100"
             type="checkbox"
             value={formData.flowmeterDosing ? ["flowmeterDosing"] : []}
-            onChange={(val) =>
+            onChange={(val) => {
+              setIsChanged(true);
               setFormData({
                 ...formData,
                 flowmeterDosing: val.includes("flowmeterDosing"),
-              })
-            }
+              });
+            }}
           >
             <ToggleButton
               className="fs-4 fw-bold flex-fill"
@@ -188,9 +215,10 @@ const NewProgram = ({ onExit }) => {
                 name="delayedStart"
                 type="radio"
                 value={formData.delayedStart}
-                onChange={(val) =>
-                  setFormData({ ...formData, delayedStart: val })
-                }
+                onChange={(val) => {
+                  setIsChanged(true);
+                  setFormData({ ...formData, delayedStart: val });
+                }}
               >
                 <ToggleButton
                   className="fs-4 fw-bold flex-fill"
@@ -273,9 +301,10 @@ const NewProgram = ({ onExit }) => {
               name="dosingMethod"
               type="radio"
               value={formData.dosingAlgorithm}
-              onChange={(val) =>
-                setFormData({ ...formData, dosingAlgorithm: val })
-              }
+              onChange={(val) => {
+                setIsChanged(true);
+                setFormData({ ...formData, dosingAlgorithm: val });
+              }}
             >
               <ToggleButton
                 className="fs-4 fw-bold ms-2"
@@ -332,9 +361,12 @@ const NewProgram = ({ onExit }) => {
             <ToggleButtonGroup
               className="mb-2 w-100"
               name="trigger"
-              onChange={(val) => setFormData({ ...formData, trigger: val })}
               type="radio"
               value={formData.trigger}
+              onChange={(val) => {
+                setIsChanged(true);
+                setFormData({ ...formData, trigger: val });
+              }}
             >
               <ToggleButton
                 className="fs-4 fw-bold flex-fill"
@@ -358,12 +390,13 @@ const NewProgram = ({ onExit }) => {
               className="mb-2 w-100"
               type="checkbox"
               value={formData.firstSampleNow ? ["firstSampleNow"] : []}
-              onChange={(val) =>
+              onChange={(val) => {
+                setIsChanged(true);
                 setFormData({
                   ...formData,
                   firstSampleNow: val.includes("firstSampleNow"),
-                })
-              }
+                });
+              }}
             >
               <ToggleButton
                 className="fs-4 fw-bold flex-fill"
@@ -428,4 +461,4 @@ const NewProgram = ({ onExit }) => {
   );
 };
 
-export default NewProgram;
+export default ProgramEditor;

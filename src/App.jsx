@@ -1,20 +1,19 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-alert */
-/* eslint-disable import-x/extensions */
 import React, { useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-import MainMenu from "./assets/components/slices/MainMenu.jsx";
-import ManualMode from "./assets/components/slices/ManualMode.jsx";
-import NewProgram from "./assets/components/slices/NewProgram.jsx";
-import ProgramsList from "./assets/components/slices/ProgramsList.jsx";
-import ProgramStatus from "./assets/components/slices/ProgramStatus.jsx";
-import SamplingReport from "./assets/components/slices/SamplingReport.jsx";
-import SystemSettings from "./assets/components/slices/SystemSettings.jsx";
+import MainMenu from "./assets/components/slices/MainMenu";
+import ManualMode from "./assets/components/slices/ManualMode";
+import ProgramEditor from "./assets/components/slices/ProgramEditor";
+import ProgramsList from "./assets/components/slices/ProgramsList";
+import ProgramStatus from "./assets/components/slices/ProgramStatus";
+import SamplingReport from "./assets/components/slices/SamplingReport";
+import SystemSettings from "./assets/components/slices/SystemSettings";
 
 const App = () => {
   const [activeSlice, setActiveSlice] = useState("MainMenu");
+  const [progParams, setProgParams] = useState(null);
+
   switch (activeSlice) {
     case "MainMenu":
       return (
@@ -23,9 +22,10 @@ const App = () => {
     case "ProgramsList":
       return (
         <ProgramsList
-          onCreateNew={() => setActiveSlice("NewProgram")}
-          onEdit={() => setActiveSlice("NewProgram")}
+          onCreateNew={() => setActiveSlice("ProgramEditor")}
+          onEdit={() => setActiveSlice("ProgramEditor")}
           onExit={() => setActiveSlice("MainMenu")}
+          transferProgParams={setProgParams}
         />
       );
     case "ProgramStatus":
@@ -39,18 +39,12 @@ const App = () => {
       return <ManualMode onExit={() => setActiveSlice("MainMenu")} />;
     case "SystemSettings":
       return <SystemSettings onExit={() => setActiveSlice("MainMenu")} />;
-    case "NewProgram":
+    case "ProgramEditor":
       return (
-        <NewProgram
-          onExit={() => {
-            if (
-              confirm(
-                "Несохранённые данные будут утеряны.\nВы уверены, что хотите выйти?",
-              )
-            ) {
-              setActiveSlice("ProgramsList");
-            }
-          }}
+        <ProgramEditor
+          clearProgParams={setProgParams}
+          onExit={() => setActiveSlice("ProgramsList")}
+          progData={progParams}
         />
       );
     case "SamplingReport":

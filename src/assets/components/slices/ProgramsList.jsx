@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from "react";
@@ -142,9 +141,10 @@ const MainBody = ({
   renderList,
   activeNum,
   setActivePrN,
-  onEdit,
+  onProgEdit,
   onDel,
   setPrgs,
+  transferParams,
 }) => (
   <Accordion className="border-2 mx-2">
     {renderList.map((program, idx) => {
@@ -244,9 +244,12 @@ const MainBody = ({
             <div className="text-center mt-3">
               <Button
                 className="me-5 px-4 py-2 fw-bold shadow"
-                onClick={() => onEdit(program.num)}
                 size="lg"
                 variant="primary"
+                onClick={() => {
+                  transferParams(program);
+                  onProgEdit();
+                }}
               >
                 <PencilSquare className="me-3" size={30} />
                 Редактировать
@@ -268,7 +271,7 @@ const MainBody = ({
   </Accordion>
 );
 
-const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
+const ProgramsList = ({ onExit, onCreateNew, onEdit, transferProgParams }) => {
   const [programs, setPrograms] = useState(null);
   const [activePrgNum, setActivePrgNum] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -289,8 +292,8 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
         const result2 = await response2.json();
         setPrograms(result1);
         setActivePrgNum(result2);
-        console.dir(result1);
-        console.log(result2);
+        // console.dir(result1);
+        // console.log(result2);
       } catch (err) {
         setError(err);
       } finally {
@@ -321,10 +324,11 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit }) => {
         <MainBody
           activeNum={activePrgNum}
           onDel={onProgDel}
-          onEdit={onEdit}
+          onProgEdit={onEdit}
           renderList={programs}
           setActivePrN={setActivePrgNum}
           setPrgs={setPrograms}
+          transferParams={transferProgParams}
         />
       )}
     </React.Fragment>
