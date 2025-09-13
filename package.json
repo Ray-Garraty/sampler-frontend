@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "devwin": "start chrome --window-size=1024,600 http://localhost:5173 & vite & nodemon server.js",
-    "devlin": "chromium --window-size=1024,600 http://localhost:5173 & vite & nodemon server.js",
+    "devwin": "start vite & start nodemon server.js & start chrome --window-size=1024,725 http://localhost:5173",
+    "devlin": "chromium --window-size=1024,725 http://localhost:5173 & vite & nodemon server.js",
     "build": "vite build",
     "lint": "npx eslint .",
     "preview": "vite preview"
@@ -40,5 +40,9 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "vite": "^7.1.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["*.jsx", "/data/*"],
+    "delay": 2500
   }
 }

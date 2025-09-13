@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from "react";
@@ -275,7 +276,7 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit, transferProgParams }) => {
   const [programs, setPrograms] = useState(null);
   const [activePrgNum, setActivePrgNum] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -286,16 +287,17 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit, transferProgParams }) => {
         ]);
 
         if (!response1.ok || !response2.ok) {
-          throw new Error("One or more requests failed");
+          console.error("One or more requests failed");
+          setLoadError(true);
         }
         const result1 = await response1.json();
         const result2 = await response2.json();
         setPrograms(result1);
         setActivePrgNum(result2);
-        // console.dir(result1);
-        // console.log(result2);
       } catch (err) {
-        setError(err);
+        setLoadError(true);
+        console.error(err);
+        console.log("Ошибка загрузки", loadError);
       } finally {
         setIsLoading(false);
       }
@@ -314,13 +316,16 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit, transferProgParams }) => {
         onRightBtnClk={onExit}
         rightBtnTitle="Выйти в главное меню"
       />
-      {error ? <h3 className="text-danger">Ошибка загрузки данных</h3> : null}
+      {loadError ? (
+        <h3 className="text-danger text-center">Не удалось загрузить данные</h3>
+      ) : null}
       {isLoading ? (
-        <div className="text-center fst-italic fw-bold fs-3">
+        <div className="text-center fst-italic fw-bold fs-3 text-primary">
           Подождите, идёт загрузка {"     "}
-          <Spinner variant="info" />
+          <Spinner variant="primary" />
         </div>
-      ) : (
+      ) : null}
+      {programs ? (
         <MainBody
           activeNum={activePrgNum}
           onDel={onProgDel}
@@ -330,7 +335,7 @@ const ProgramsList = ({ onExit, onCreateNew, onEdit, transferProgParams }) => {
           setPrgs={setPrograms}
           transferParams={transferProgParams}
         />
-      )}
+      ) : null}
     </React.Fragment>
   );
 };

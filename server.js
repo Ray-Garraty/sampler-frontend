@@ -122,3 +122,30 @@ app.post("/saveNewProg", (req, res) => {
     });
   });
 });
+
+app.post("/editProg", (req, res) => {
+  const editedProgram = req.body;
+
+  fs.readFile("data/programs.json", "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading programs.json file:", err);
+      return;
+    }
+
+    const programs = JSON.parse(data, reviveNumbers);
+    const updatedPrograms = programs.map((prog) =>
+      prog.num === editedProgram.num ? editedProgram : prog,
+    );
+    const updatedProgramsString = JSON.stringify(updatedPrograms, null, 2);
+    fs.writeFile("data/programs.json", updatedProgramsString, (error) => {
+      if (error) {
+        console.error("Error writing programs.json file:", error);
+        return;
+      }
+      res.json({
+        message: "Program saved successfully",
+        data: updatedPrograms,
+      });
+    });
+  });
+});

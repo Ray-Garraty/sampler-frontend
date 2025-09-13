@@ -53,6 +53,7 @@ const ProgramEditor = ({ clearProgParams, progData, onExit }) => {
 
   const [formData, setFormData] = useState(progData || defaultFormData);
   const [isChanged, setIsChanged] = useState(false);
+  const [reqInProgress, setReqInProgress] = useState(false);
 
   const handleChange = (e) => {
     setIsChanged(true);
@@ -65,7 +66,11 @@ const ProgramEditor = ({ clearProgParams, progData, onExit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:4000/saveNewProg", {
+    setReqInProgress(true);
+    const reqName = formData.num === null ? "saveNewProg" : "editProg";
+    console.log(formData.num);
+    console.log(reqName);
+    fetch(`http://localhost:4000/${reqName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,9 +82,12 @@ const ProgramEditor = ({ clearProgParams, progData, onExit }) => {
         console.table(data.data);
         alert("Программа сохранена!");
         onExit();
+        setReqInProgress(false);
       })
       .catch((error) => {
         console.error("Error saving new program", error);
+        alert("Произошла ошибка, программа не сохранена!");
+        setReqInProgress(false);
       });
   };
 
@@ -87,10 +95,12 @@ const ProgramEditor = ({ clearProgParams, progData, onExit }) => {
     <Form className="mx-3">
       <HeaderTwoBtns
         icon="ClipboardPlus"
-        isLeftBtnDisabled={!isChanged && formData.num !== null}
         leftBtnTitle="Сохранить"
         onLeftBtnClk={handleSubmit}
         rightBtnTitle="Вернуться к списку"
+        isLeftBtnDisabled={
+          (!isChanged && formData.num !== null) || reqInProgress
+        }
         mainTitle={
           formData.num === null
             ? "НОВАЯ ПРОГРАММА"
